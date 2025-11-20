@@ -43,6 +43,7 @@ const allowedOrigins = process.env.NODE_ENV === 'production'
   ? [
       process.env.FRONTEND_URL,
       'https://geoffreymunene.netlify.app',
+      'https://geoffrey-personal-website.netlify.app',
       'https://geoffreymunene.com',
       'https://www.geoffreymunene.com'
     ].filter(Boolean) // Remove any undefined values
