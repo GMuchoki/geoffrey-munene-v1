@@ -172,6 +172,18 @@
   @apply text-xs text-gray-500;
 }
 
+.job-actions {
+  @apply flex items-center gap-2;
+}
+
+.job-view-details-button {
+  @apply bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors no-underline;
+}
+
+.dark .job-view-details-button {
+  @apply bg-gray-700 text-gray-300 hover:bg-gray-600;
+}
+
 .job-apply-button {
   @apply bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors no-underline;
 }

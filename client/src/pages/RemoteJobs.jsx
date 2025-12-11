@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { jobsAPI } from '../services/api'
 import SEO from '../components/SEO'
 import SkeletonLoader from '../components/SkeletonLoader'
@@ -306,28 +307,41 @@ function RemoteJobs() {
                         <span className="job-location">📍 {job.location}</span>
                         <span className="job-type">{job.contractType}</span>
                       </div>
-                      {job.salaryMin || job.salaryMax ? (
+                      {(job.hourlyRate || job.salaryMin || job.salaryMax) && (
                         <div className="job-salary">
-                          💰 {formatSalary(job.salaryMin, job.salaryMax, job.salaryCurrency)}
+                          {job.hourlyRate
+                            ? `💵 ${job.hourlyRate}`
+                            : `💰 ${formatSalary(job.salaryMin, job.salaryMax, job.salaryCurrency)}`}
                         </div>
-                      ) : null}
-                      {job.description && (
+                      )}
+                      {(job.excerpt || job.description) && (
                         <p className="job-description">
-                          {job.description.length > 150 
-                            ? `${job.description.substring(0, 150)}...` 
-                            : job.description}
+                          {job.excerpt
+                            ? job.excerpt
+                            : job.description.length > 150 
+                              ? `${job.description.substring(0, 150)}...` 
+                              : job.description}
                         </p>
                       )}
                       <div className="job-footer">
                         <span className="job-date">{formatDate(job.created)}</span>
-                        <a
-                          href={job.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="job-apply-button"
-                        >
-                          Apply Now →
-                        </a>
+                        <div className="job-actions">
+                          <Link
+                            to={`/remote-jobs/${job.id}`}
+                            state={{ job }}
+                            className="job-view-details-button"
+                          >
+                            View Details
+                          </Link>
+                          <a
+                            href={job.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="job-apply-button"
+                          >
+                            Apply Now →
+                          </a>
+                        </div>
                       </div>
                     </div>
                   ))}

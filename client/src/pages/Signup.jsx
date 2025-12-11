@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useUser } from '../contexts/UserContext'
+import { GoogleLogin } from '@react-oauth/google'
 import SEO from '../components/SEO'
 import toast from 'react-hot-toast'
 import '../styles/pages/login.css'
@@ -11,9 +12,42 @@ function Signup() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [signupPurpose, setSignupPurpose] = useState('')
   const [loading, setLoading] = useState(false)
-  const { register, isAuthenticated } = useUser()
+  const { register, googleLogin, isAuthenticated } = useUser()
   const navigate = useNavigate()
   const location = useLocation()
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      setLoading(true)
+      const result = await googleLogin(credentialResponse.credential)
+      if (result.requiresVerification) {
+        toast.success(
+          'Please verify your email. We sent a 6-digit code to your inbox.'
+        )
+        navigate('/verify-email', {
+          state: { email: result.email },
+          replace: false,
+        })
+      } else if (result.success) {
+        toast.success(
+          'Account created successfully! You received 10 free trial tokens.'
+        )
+        const from = location.state?.from?.pathname || '/user/dashboard'
+        const search = location.state?.from?.search || ''
+        navigate(`${from}${search}`, { replace: true })
+      } else {
+        toast.error(result.message || 'Google signup failed')
+      }
+    } catch (error) {
+      toast.error('An error occurred during Google signup')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleGoogleError = () => {
+    toast.error('Google signup failed. Please try again.')
+  }
 
   // Redirect if already logged in
   useEffect(() => {
@@ -45,10 +79,18 @@ function Signup() {
       
       const result = await register(email, password, sessionId, signupPurpose)
       if (result.success) {
-        toast.success('Account created successfully! You received 10 free trial tokens.')
-        const from = location.state?.from?.pathname || '/user/dashboard'
-        const search = location.state?.from?.search || ''
-        navigate(`${from}${search}`, { replace: true })
+        if (result.requiresVerification) {
+          toast.success('Registration successful! Please check your email for verification code.')
+          navigate('/verify-email', { 
+            state: { email },
+            replace: true 
+          })
+        } else {
+          toast.success('Account created successfully! You received 10 free trial tokens.')
+          const from = location.state?.from?.pathname || '/user/dashboard'
+          const search = location.state?.from?.search || ''
+          navigate(`${from}${search}`, { replace: true })
+        }
       } else {
         toast.error(result.message || 'Registration failed')
       }
@@ -137,6 +179,22 @@ function Signup() {
                 {loading ? 'Creating account...' : 'Sign Up'}
               </button>
             </form>
+
+            <div className="login-divider">
+              <span>OR</span>
+            </div>
+
+            <div className="google-login-wrapper">
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={handleGoogleError}
+                useOneTap
+                theme="outline"
+                size="large"
+                text="continue_with"
+                shape="rectangular"
+              />
+            </div>
 
             <div className="login-footer">
               <p>

@@ -1,0 +1,284 @@
+.job-detail-page {
+  @apply w-full min-h-screen bg-gray-50;
+}
+
+.dark .job-detail-page {
+  @apply bg-gray-900;
+}
+
+.job-detail-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8;
+}
+
+.job-detail-header {
+  @apply mb-8;
+}
+
+.back-link {
+  @apply text-blue-600 font-medium hover:text-blue-700 transition-colors duration-200 inline-flex items-center mb-6;
+}
+
+.dark .back-link {
+  @apply text-blue-400 hover:text-blue-300;
+}
+
+.job-header-content {
+  @apply bg-white rounded-lg shadow-md p-6;
+}
+
+.dark .job-header-content {
+  @apply bg-gray-800;
+}
+
+.job-header-main {
+  @apply flex items-start gap-4 mb-4;
+}
+
+.job-detail-logo {
+  @apply w-16 h-16 object-contain rounded-lg border border-gray-200;
+}
+
+.dark .job-detail-logo {
+  @apply border-gray-700;
+}
+
+.job-header-info {
+  @apply flex-1;
+}
+
+.job-detail-title {
+  @apply text-2xl md:text-3xl font-bold text-gray-900 mb-2;
+}
+
+.dark .job-detail-title {
+  @apply text-gray-100;
+}
+
+.job-detail-company {
+  @apply text-lg text-gray-700 flex items-center gap-2;
+}
+
+.dark .job-detail-company {
+  @apply text-gray-300;
+}
+
+.job-source-badge {
+  @apply text-sm;
+}
+
+.job-header-meta {
+  @apply flex items-center gap-2 flex-wrap;
+}
+
+.job-category-badge {
+  @apply bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium;
+}
+
+.job-type-badge {
+  @apply bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium;
+}
+
+.dark .job-type-badge {
+  @apply bg-gray-700 text-gray-300;
+}
+
+.job-detail-content {
+  @apply grid grid-cols-1 lg:grid-cols-3 gap-8;
+}
+
+.job-detail-main {
+  @apply lg:col-span-2;
+}
+
+.job-key-info {
+  @apply bg-white rounded-lg shadow-md p-6 mb-6 grid grid-cols-1 md:grid-cols-3 gap-4;
+}
+
+.dark .job-key-info {
+  @apply bg-gray-800;
+}
+
+.info-item {
+  @apply flex items-start gap-3;
+}
+
+.info-icon {
+  @apply text-2xl;
+}
+
+.info-content {
+  @apply flex flex-col;
+}
+
+.info-label {
+  @apply text-xs text-gray-500 uppercase tracking-wide mb-1;
+}
+
+.dark .info-label {
+  @apply text-gray-400;
+}
+
+.info-value {
+  @apply text-sm font-medium text-gray-900;
+}
+
+.dark .info-value {
+  @apply text-gray-100;
+}
+
+.job-description-section {
+  @apply bg-white rounded-lg shadow-md p-6 mb-6;
+}
+
+.dark .job-description-section {
+  @apply bg-gray-800;
+}
+
+.section-title {
+  @apply text-xl font-bold text-gray-900 mb-4;
+}
+
+.dark .section-title {
+  @apply text-gray-100;
+}
+
+.job-description-content {
+  @apply text-gray-700 leading-relaxed;
+}
+
+.dark .job-description-content {
+  @apply text-gray-300;
+}
+
+.description-text {
+  @apply space-y-4;
+}
+
+.description-text p {
+  @apply mb-4;
+}
+
+.description-list {
+  @apply list-disc ml-6 space-y-2 text-gray-700;
+}
+
+.dark .description-list {
+  @apply text-gray-300;
+}
+
+.no-description {
+  @apply text-gray-500 italic;
+}
+
+.dark .no-description {
+  @apply text-gray-400;
+}
+
+.job-apply-section {
+  @apply bg-white rounded-lg shadow-md p-6 text-center;
+}
+
+.dark .job-apply-section {
+  @apply bg-gray-800;
+}
+
+.apply-button-primary {
+  @apply bg-blue-600 text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-blue-700 transition-colors duration-200 inline-block mb-4 no-underline;
+}
+
+.apply-note {
+  @apply text-sm text-gray-500;
+}
+
+.dark .apply-note {
+  @apply text-gray-400;
+}
+
+.job-detail-sidebar {
+  @apply lg:col-span-1 space-y-6;
+}
+
+.sidebar-card {
+  @apply bg-white rounded-lg shadow-md p-6;
+}
+
+.dark .sidebar-card {
+  @apply bg-gray-800;
+}
+
+.sidebar-title {
+  @apply text-lg font-bold text-gray-900 mb-4;
+}
+
+.dark .sidebar-title {
+  @apply text-gray-100;
+}
+
+.sidebar-content {
+  @apply space-y-4;
+}
+
+.summary-item {
+  @apply flex flex-col pb-4 border-b border-gray-200 last:border-0;
+}
+
+.dark .summary-item {
+  @apply border-gray-700;
+}
+
+.summary-label {
+  @apply text-xs text-gray-500 uppercase tracking-wide mb-1;
+}
+
+.dark .summary-label {
+  @apply text-gray-400;
+}
+
+.summary-value {
+  @apply text-sm font-medium text-gray-900;
+}
+
+.dark .summary-value {
+  @apply text-gray-100;
+}
+
+.share-buttons {
+  @apply flex flex-col gap-2;
+}
+
+.share-button {
+  @apply bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors duration-200;
+}
+
+.dark .share-button {
+  @apply bg-gray-700 text-gray-300 hover:bg-gray-600;
+}
+
+.error-state {
+  @apply text-center py-20;
+}
+
+.error-state h2 {
+  @apply text-2xl font-bold text-gray-900 mb-4;
+}
+
+.dark .error-state h2 {
+  @apply text-gray-100;
+}
+
+.error-state p {
+  @apply text-gray-600 mb-6;
+}
+
+.dark .error-state p {
+  @apply text-gray-400;
+}
+
+.error-actions {
+  @apply flex justify-center;
+}
+
+.back-button {
+  @apply bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors duration-200 inline-block no-underline;
+}
+

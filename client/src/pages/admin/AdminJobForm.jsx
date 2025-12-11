@@ -17,6 +17,8 @@ function AdminJobForm() {
     company: '',
     location: 'Remote',
     description: '',
+    excerpt: '',
+    hourlyRate: '',
     salary: '',
     contractType: 'Full-time',
     category: '',
@@ -171,6 +173,16 @@ function AdminJobForm() {
               </select>
             </div>
             <div className="admin-form-group">
+              <label>Hourly Pay (optional)</label>
+              <input
+                type="text"
+                name="hourlyRate"
+                value={formData.hourlyRate}
+                onChange={handleChange}
+                placeholder="$30/hr or £25-£35/hr"
+              />
+            </div>
+            <div className="admin-form-group">
               <label>Salary</label>
               <input
                 type="text"
@@ -191,6 +203,19 @@ function AdminJobForm() {
                 onChange={handleChange}
                 rows="8"
                 required
+              />
+            </div>
+          </div>
+
+          <div className="admin-form-row">
+            <div className="admin-form-group full-width">
+              <label>Excerpt (shown in list)</label>
+              <textarea
+                name="excerpt"
+                value={formData.excerpt}
+                onChange={handleChange}
+                rows="3"
+                placeholder="Short teaser that appears in the job list"
               />
             </div>
           </div>

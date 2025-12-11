@@ -17,11 +17,18 @@ const createTransporter = () => {
 
   // Fallback: Use Gmail OAuth2 or App Password if configured
   if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) {
+    // Try port 465 (SSL) first, fallback to 587 (TLS)
+    const useSSL = process.env.GMAIL_USE_SSL !== 'false' // Default to SSL
     return nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: useSSL ? 465 : 587,
+      secure: useSSL, // true for 465, false for 587
       auth: {
         user: process.env.GMAIL_USER,
         pass: process.env.GMAIL_APP_PASSWORD,
+      },
+      tls: {
+        rejectUnauthorized: false,
       },
     })
   }
@@ -196,6 +203,125 @@ export const sendWelcomeEmail = async (userEmail, signupPurpose) => {
   } catch (error) {
     console.error('Error sending welcome email:', error)
     // Don't throw - email failures shouldn't break registration
+    return { success: false, error: error.message }
+  }
+}
+
+// Generate verification email HTML
+const generateVerificationEmailHTML = (userEmail, verificationCode) => {
+  const firstName = userEmail.split('@')[0]
+
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify Your Email Address</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+    <h1 style="color: white; margin: 0; font-size: 28px;">✉️ Verify Your Email</h1>
+  </div>
+  
+  <div style="background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px;">
+    <p style="font-size: 18px; margin-top: 0;">Hi ${firstName},</p>
+    
+    <p>Thank you for signing up! Please verify your email address to complete your registration.</p>
+    
+    <div style="background: white; padding: 30px; border-radius: 8px; margin: 20px 0; text-align: center; border: 2px dashed #667eea;">
+      <p style="margin: 0 0 10px 0; color: #666; font-size: 14px;">Your verification code is:</p>
+      <h2 style="margin: 0; color: #667eea; font-size: 36px; letter-spacing: 8px; font-family: 'Courier New', monospace;">${verificationCode}</h2>
+      <p style="margin: 10px 0 0 0; color: #999; font-size: 12px;">This code will expire in 10 minutes</p>
+    </div>
+    
+    <p style="color: #666; font-size: 14px;">
+      Enter this code on the verification page to activate your account. If you didn't create an account, you can safely ignore this email.
+    </p>
+    
+    <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0; border-radius: 4px;">
+      <p style="margin: 0; color: #856404; font-size: 14px;">
+        <strong>⚠️ Security Tip:</strong> Never share this code with anyone. We will never ask for your verification code via email or phone.
+      </p>
+    </div>
+    
+    <p style="color: #666; font-size: 14px; margin-top: 30px;">
+      If you have any questions, feel free to reach out to us.
+    </p>
+    
+    <p style="color: #666; font-size: 14px;">
+      Best regards,<br>
+      <strong>The Geoffrey Munene Team</strong>
+    </p>
+  </div>
+  
+  <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #9ca3af; font-size: 12px;">
+    <p>This email was sent to ${userEmail}</p>
+    <p>© ${new Date().getFullYear()} Geoffrey Munene. All rights reserved.</p>
+  </div>
+</body>
+</html>
+  `
+}
+
+// Generate verification email text version
+const generateVerificationEmailText = (userEmail, verificationCode) => {
+  const firstName = userEmail.split('@')[0]
+
+  return `
+Hi ${firstName},
+
+Thank you for signing up! Please verify your email address to complete your registration.
+
+Your verification code is: ${verificationCode}
+
+This code will expire in 10 minutes.
+
+Enter this code on the verification page to activate your account. If you didn't create an account, you can safely ignore this email.
+
+Security Tip: Never share this code with anyone. We will never ask for your verification code via email or phone.
+
+If you have any questions, feel free to reach out to us.
+
+Best regards,
+The Geoffrey Munene Team
+
+---
+This email was sent to ${userEmail}
+© ${new Date().getFullYear()} Geoffrey Munene. All rights reserved.
+  `
+}
+
+// Send verification code email
+export const sendVerificationCode = async (userEmail, verificationCode) => {
+  try {
+    const transporter = createTransporter()
+    
+    if (!transporter) {
+      console.warn('Email transporter not available. Skipping verification email.')
+      return { success: false, error: 'Email service not configured' }
+    }
+
+    const mailOptions = {
+      from: process.env.EMAIL_FROM || process.env.SMTP_USER || process.env.GMAIL_USER || 'noreply@geoffreymunene.com',
+      to: userEmail,
+      subject: '✉️ Verify Your Email Address',
+      text: generateVerificationEmailText(userEmail, verificationCode),
+      html: generateVerificationEmailHTML(userEmail, verificationCode),
+    }
+
+    const info = await transporter.sendMail(mailOptions)
+    
+    // In development with ethereal, log the preview URL
+    if (process.env.NODE_ENV === 'development' && info.messageId) {
+      console.log('📧 Verification email sent! Preview URL:', nodemailer.getTestMessageUrl(info))
+    } else {
+      console.log('📧 Verification email sent to:', userEmail)
+    }
+
+    return { success: true, messageId: info.messageId }
+  } catch (error) {
+    console.error('Error sending verification email:', error)
     return { success: false, error: error.message }
   }
 }

@@ -24,6 +24,31 @@ const userSchema = new mongoose.Schema(
       unique: true,
       sparse: true, // Allows multiple null values
     },
+    // Google OAuth
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true, // Allows multiple null values but enforces uniqueness for non-null
+      index: true,
+    },
+    authProvider: {
+      type: String,
+      enum: ['local', 'google', null],
+      default: null,
+    },
+    // Email verification
+    emailVerified: {
+      type: Boolean,
+      default: false,
+    },
+    verificationCode: {
+      type: String,
+      select: false, // Don't return by default
+    },
+    verificationCodeExpires: {
+      type: Date,
+      select: false,
+    },
     // Token balance
     tokens: {
       type: Number,

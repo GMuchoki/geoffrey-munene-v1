@@ -319,6 +319,8 @@ export const getRemoteJobs = async (req, res) => {
           company: job.company,
           location: job.location,
           description: job.description,
+          excerpt: job.excerpt || '',
+          hourlyRate: job.hourlyRate || '',
           salaryMin: job.salary ? parseInt(job.salary.match(/\d+/)?.[0]) : null,
           salaryMax: job.salary ? parseInt(job.salary.match(/\d+/g)?.[1] || job.salary.match(/\d+/)?.[0]) : null,
           salaryCurrency: 'USD',
@@ -770,6 +772,129 @@ const getSampleJobs = () => {
       contractType: 'Full-time',
     },
   ]
+}
+
+// @desc    Get a single job by ID
+// @route   GET /api/jobs/:id
+// @access  Public
+export const getJobById = async (req, res) => {
+  try {
+    const { id } = req.params
+
+    // First, try to find manual job in database
+    try {
+      const manualJob = await Job.findOne({ 
+        $or: [
+          { _id: id },
+          { externalId: id }
+        ],
+        active: true 
+      })
+
+      if (manualJob) {
+        return res.status(200).json({
+          success: true,
+          data: {
+            id: manualJob._id.toString(),
+            title: manualJob.title,
+            company: manualJob.company,
+            location: manualJob.location,
+            description: manualJob.description,
+            salaryMin: manualJob.salary ? parseInt(manualJob.salary.match(/\d+/)?.[0]) : null,
+            salaryMax: manualJob.salary ? parseInt(manualJob.salary.match(/\d+/g)?.[1] || manualJob.salary.match(/\d+/)?.[0]) : null,
+            salaryCurrency: 'USD',
+            created: manualJob.createdAt.toISOString(),
+            url: manualJob.applyUrl,
+            category: manualJob.category,
+            contractType: manualJob.contractType,
+            source: manualJob.source || 'manual',
+            companyLogo: manualJob.companyLogo || null,
+          },
+        })
+      }
+    } catch (dbError) {
+      // If it's not a valid MongoDB ID, continue to check external sources
+      console.log('Not a database job, checking external sources...')
+    }
+
+    // Try cached external jobs first (faster than refetching)
+    try {
+      const cachedHimalayas = await getCachedJobs('himalayas')
+      const cachedAdzuna = await getCachedJobs('adzuna')
+
+      const cacheHit =
+        cachedHimalayas.find(
+          (job) => job.externalId === id || job._id?.toString() === id
+        ) ||
+        cachedAdzuna.find(
+          (job) => job.externalId === id || job._id?.toString() === id
+        )
+
+      if (cacheHit) {
+        return res.status(200).json({
+          success: true,
+          data: {
+            id: cacheHit.externalId || cacheHit._id?.toString(),
+            title: cacheHit.title,
+            company: cacheHit.company,
+            location: cacheHit.location,
+            description: cacheHit.description,
+            salaryMin: cacheHit.salary ? parseInt(cacheHit.salary.match(/\d+/)?.[0]) : null,
+            salaryMax: cacheHit.salary ? parseInt(cacheHit.salary.match(/\d+/g)?.[1] || cacheHit.salary.match(/\d+/)?.[0]) : null,
+            salaryCurrency: 'USD',
+            created: cacheHit.pubDate?.toISOString() || cacheHit.createdAt?.toISOString(),
+            url: cacheHit.applyUrl,
+            category: cacheHit.category,
+            contractType: cacheHit.contractType,
+            source: cacheHit.source,
+            companyLogo: cacheHit.companyLogo || null,
+          },
+        })
+      }
+    } catch (cacheErr) {
+      console.log('Cache lookup failed, falling back to API fetch:', cacheErr.message)
+    }
+
+    // Check if it's an external job ID (himalayas-xxx or adzuna-xxx)
+    if (id.startsWith('himalayas-')) {
+      // For Himalayas jobs, we need to fetch from the API
+      // Since we don't have a direct way to fetch a single job by ID from Himalayas,
+      // we'll fetch a batch and find the matching one
+      const himalayasJobs = await fetchHimalayasJobs('', 1, 50)
+      const job = himalayasJobs.find(j => j.id === id)
+      
+      if (job) {
+        return res.status(200).json({
+          success: true,
+          data: job,
+        })
+      }
+    } else if (id.startsWith('adzuna-')) {
+      // For Adzuna jobs, similar approach
+      const adzunaJobs = await fetchAdzunaJobs('', 'us', 1, 50)
+      const job = adzunaJobs.find(j => j.id === id)
+      
+      if (job) {
+        return res.status(200).json({
+          success: true,
+          data: job,
+        })
+      }
+    }
+
+    // Job not found
+    return res.status(404).json({
+      success: false,
+      message: 'Job not found',
+    })
+  } catch (error) {
+    console.error('Error fetching job:', error)
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch job',
+      error: error.message,
+    })
+  }
 }
 
 // @desc    Get job categories

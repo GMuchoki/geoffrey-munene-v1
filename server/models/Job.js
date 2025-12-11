@@ -22,9 +22,19 @@ const jobSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Job description is required'],
     },
+    excerpt: {
+      type: String,
+      trim: true,
+      default: '',
+    },
     salary: {
       type: String,
       default: '',
+    },
+    hourlyRate: {
+      type: String,
+      default: '',
+      trim: true,
     },
     contractType: {
       type: String,

@@ -92,6 +92,18 @@ export const userAPI = {
     const response = await api.post('/users/login', { email, password })
     return response.data
   },
+  googleAuth: async (token) => {
+    const response = await api.post('/users/auth/google', { token })
+    return response.data
+  },
+  verifyEmail: async (email, code) => {
+    const response = await api.post('/users/verify-email', { email, code })
+    return response.data
+  },
+  resendVerificationCode: async (email) => {
+    const response = await api.post('/users/resend-verification', { email })
+    return response.data
+  },
   getMe: async () => {
     const response = await api.get('/users/me')
     return response.data
@@ -176,6 +188,10 @@ export const jobsAPI = {
   },
   getCategories: async () => {
     const response = await api.get('/jobs/categories')
+    return response.data
+  },
+  getById: async (id) => {
+    const response = await api.get(`/jobs/${id}`)
     return response.data
   },
 }

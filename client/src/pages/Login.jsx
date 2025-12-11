@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useUser } from '../contexts/UserContext'
+import { GoogleLogin } from '@react-oauth/google'
 import SEO from '../components/SEO'
 import toast from 'react-hot-toast'
 import '../styles/pages/login.css'
@@ -9,9 +10,40 @@ function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const { login, isAuthenticated } = useUser()
+  const { login, googleLogin, isAuthenticated } = useUser()
   const navigate = useNavigate()
   const location = useLocation()
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      setLoading(true)
+      const result = await googleLogin(credentialResponse.credential)
+      if (result.requiresVerification) {
+        toast.success(
+          'Please verify your email. We sent a 6-digit code to your inbox.'
+        )
+        navigate('/verify-email', {
+          state: { email: result.email },
+          replace: false,
+        })
+      } else if (result.success) {
+        toast.success('Login successful!')
+        const from = location.state?.from?.pathname || '/user/dashboard'
+        const search = location.state?.from?.search || ''
+        navigate(`${from}${search}`, { replace: true })
+      } else {
+        toast.error(result.message || 'Google login failed')
+      }
+    } catch (error) {
+      toast.error('An error occurred during Google login')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleGoogleError = () => {
+    toast.error('Google login failed. Please try again.')
+  }
 
   // Redirect if already logged in
   useEffect(() => {
@@ -34,7 +66,16 @@ function Login() {
         const search = location.state?.from?.search || ''
         navigate(`${from}${search}`, { replace: true })
       } else {
-        toast.error(result.message || 'Login failed')
+        // Check if email verification is required
+        if (result.requiresVerification) {
+          toast.error(result.message || 'Please verify your email address')
+          navigate('/verify-email', { 
+            state: { email },
+            replace: false 
+          })
+        } else {
+          toast.error(result.message || 'Login failed')
+        }
       }
     } catch (error) {
       toast.error('An error occurred during login')
@@ -88,6 +129,22 @@ function Login() {
                 {loading ? 'Logging in...' : 'Login'}
               </button>
             </form>
+
+            <div className="login-divider">
+              <span>OR</span>
+            </div>
+
+            <div className="google-login-wrapper">
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={handleGoogleError}
+                useOneTap
+                theme="outline"
+                size="large"
+                text="continue_with"
+                shape="rectangular"
+              />
+            </div>
 
             <div className="login-footer">
               <p>

@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { Toaster } from 'react-hot-toast'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { AuthProvider } from './contexts/AuthContext'
 import { UserProvider } from './contexts/UserContext'
@@ -12,6 +13,7 @@ import BlogDetail from './pages/BlogDetail'
 import Tools from './pages/Tools'
 import Learn from './pages/Learn'
 import RemoteJobs from './pages/RemoteJobs'
+import JobDetail from './pages/JobDetail'
 import Services from './pages/Services'
 import Contact from './pages/Contact'
 import Community from './pages/Community'
@@ -20,6 +22,7 @@ import Terms from './pages/Terms'
 import Privacy from './pages/Privacy'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
+import VerifyEmail from './pages/VerifyEmail'
 import UserDashboard from './pages/UserDashboard'
 import Profile from './pages/user/Profile'
 import Settings from './pages/user/Settings'
@@ -49,14 +52,17 @@ import Footer from './components/Footer'
 import './styles/app.css'
 
 function App() {
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || ''
+
   return (
     <ErrorBoundary>
       <HelmetProvider>
-        <ThemeProvider>
-          <UserProvider>
-            <TokenProvider>
-              <AuthProvider>
-                <Router
+        <GoogleOAuthProvider clientId={googleClientId}>
+          <ThemeProvider>
+            <UserProvider>
+              <TokenProvider>
+                <AuthProvider>
+                  <Router
                   future={{
                     v7_startTransition: true,
                     v7_relativeSplatPath: true,
@@ -81,6 +87,7 @@ function App() {
                       {/* Public learn page - free content only */}
                       <Route path="/learn" element={<Learn />} />
                       <Route path="/remote-jobs" element={<RemoteJobs />} />
+                      <Route path="/remote-jobs/:id" element={<JobDetail />} />
                       <Route path="/services" element={<Services />} />
                       <Route path="/about" element={<About />} />
                       <Route path="/contact" element={<Contact />} />
@@ -90,6 +97,7 @@ function App() {
                       <Route path="/privacy" element={<Privacy />} />
                       <Route path="/login" element={<Login />} />
                       <Route path="/signup" element={<Signup />} />
+                      <Route path="/verify-email" element={<VerifyEmail />} />
                       {/* Redirect old /dashboard route to /user/dashboard for backward compatibility */}
                       <Route path="/dashboard" element={<Navigate to="/user/dashboard" replace />} />
                       {/* User-specific routes - require authentication */}
@@ -314,6 +322,7 @@ function App() {
             </TokenProvider>
           </UserProvider>
       </ThemeProvider>
+        </GoogleOAuthProvider>
       <Toaster
         position="top-right"
         toastOptions={{
