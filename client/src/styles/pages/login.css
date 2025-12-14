@@ -7,7 +7,13 @@
 }
 
 .login-card {
-  @apply bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8;
+  @apply bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6;
+}
+
+@media (min-width: 640px) {
+  .login-card {
+    @apply p-8;
+  }
 }
 
 .login-title {
@@ -19,11 +25,22 @@
 }
 
 .login-form {
-  @apply space-y-6;
+  @apply space-y-4;
 }
 
 .login-form .form-group {
-  @apply space-y-2;
+  @apply space-y-1.5;
+}
+
+/* Two-column layout for name fields */
+.name-fields-row {
+  @apply grid grid-cols-2 gap-4;
+}
+
+@media (max-width: 640px) {
+  .name-fields-row {
+    @apply grid-cols-1;
+  }
 }
 
 .login-form label {
@@ -75,11 +92,17 @@
 }
 
 .password-requirements {
-  @apply mt-2 space-y-1.5;
+  @apply mt-2 grid grid-cols-2 gap-x-4 gap-y-1;
+}
+
+@media (max-width: 640px) {
+  .password-requirements {
+    @apply grid-cols-1;
+  }
 }
 
 .password-requirements .requirement {
-  @apply flex items-center gap-2 text-sm transition-colors;
+  @apply flex items-center gap-1.5 text-xs transition-colors;
 }
 
 .password-requirements .requirement.met {
@@ -136,10 +159,15 @@
 }
 
 .google-login-wrapper {
-  @apply w-full flex justify-center;
+  @apply w-full flex justify-center items-center;
+  min-height: 44px;
+  margin: 0.75rem 0;
 }
 
+/* Center the Google button at its natural size */
 .google-login-wrapper > div {
-  @apply w-full;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
 }
 

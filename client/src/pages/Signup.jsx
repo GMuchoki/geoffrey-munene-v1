@@ -52,7 +52,7 @@ function Signup() {
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
       setLoading(true)
-      const result = await googleLogin(credentialResponse.credential)
+      const result = await googleLogin(credentialResponse.credential, 'signup')
       if (result.requiresVerification) {
         toast.success(
           'Please verify your email. We sent a 6-digit code to your inbox.'
@@ -107,6 +107,7 @@ function Signup() {
       navigate(`${from}${search}`, { replace: true })
     }
   }, [isAuthenticated, navigate, location])
+
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -216,19 +217,36 @@ function Signup() {
             <p className="login-subtitle">Create an account and get 10 free trial tokens</p>
 
             <form onSubmit={handleSubmit} className="login-form">
-              <div className="form-group">
-                <label htmlFor="firstName">First Name <span className="required">*</span></label>
-                <input
-                  id="firstName"
-                  type="text"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  placeholder="John"
-                  required
-                  disabled={loading}
-                  minLength={2}
-                  maxLength={50}
-                />
+              <div className="name-fields-row">
+                <div className="form-group">
+                  <label htmlFor="firstName">First Name <span className="required">*</span></label>
+                  <input
+                    id="firstName"
+                    type="text"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    placeholder="John"
+                    required
+                    disabled={loading}
+                    minLength={2}
+                    maxLength={50}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="lastName">Last Name <span className="required">*</span></label>
+                  <input
+                    id="lastName"
+                    type="text"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    placeholder="Doe"
+                    required
+                    disabled={loading}
+                    minLength={2}
+                    maxLength={50}
+                  />
+                </div>
               </div>
 
               <div className="form-group">
@@ -240,21 +258,6 @@ function Signup() {
                   onChange={(e) => setMiddleName(e.target.value)}
                   placeholder="Michael"
                   disabled={loading}
-                  maxLength={50}
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="lastName">Last Name <span className="required">*</span></label>
-                <input
-                  id="lastName"
-                  type="text"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  placeholder="Doe"
-                  required
-                  disabled={loading}
-                  minLength={2}
                   maxLength={50}
                 />
               </div>
@@ -291,16 +294,16 @@ function Signup() {
               <div className="form-group">
                 <label htmlFor="password">Password <span className="required">*</span></label>
                 <div className="password-input-wrapper">
-                  <input
-                    id="password"
+                <input
+                  id="password"
                     type={showPassword ? 'text' : 'password'}
-                    value={password}
+                  value={password}
                     onChange={handlePasswordChange}
-                    placeholder="At least 8 characters"
-                    required
-                    disabled={loading}
-                    minLength={8}
-                  />
+                  placeholder="At least 8 characters"
+                  required
+                  disabled={loading}
+                  minLength={8}
+                />
                   <button
                     type="button"
                     className="password-toggle"
@@ -353,16 +356,16 @@ function Signup() {
               <div className="form-group">
                 <label htmlFor="confirmPassword">Confirm Password <span className="required">*</span></label>
                 <div className="password-input-wrapper">
-                  <input
-                    id="confirmPassword"
+                <input
+                  id="confirmPassword"
                     type={showConfirmPassword ? 'text' : 'password'}
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="Confirm your password"
-                    required
-                    disabled={loading}
-                    minLength={8}
-                  />
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Confirm your password"
+                  required
+                  disabled={loading}
+                  minLength={8}
+                />
                   <button
                     type="button"
                     className="password-toggle"
@@ -416,7 +419,7 @@ function Signup() {
                     onError={handleGoogleError}
                     theme="outline"
                     size="large"
-                    text="continue_with"
+                    text="signup_with"
                     shape="rectangular"
                   />
                 </div>

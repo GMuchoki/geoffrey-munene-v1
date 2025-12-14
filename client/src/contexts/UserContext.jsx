@@ -103,11 +103,11 @@ export const UserProvider = ({ children }) => {
     }
   }
 
-  const googleLogin = async (token) => {
+  const googleLogin = async (token, action = 'signup') => {
     try {
       setLoading(true)
       setError(null)
-      const response = await userAPI.googleAuth(token)
+      const response = await userAPI.googleAuth(token, action)
       if (response.requiresVerification) {
         // Google users must verify email before issuing a token
         const message =

@@ -106,8 +106,8 @@ export const userAPI = {
     const response = await api.post('/users/login', payload)
     return response.data
   },
-  googleAuth: async (token) => {
-    const response = await api.post('/users/auth/google', { token })
+  googleAuth: async (token, action = 'signup') => {
+    const response = await api.post('/users/auth/google', { token, action })
     return response.data
   },
   verifyEmail: async (email, code) => {

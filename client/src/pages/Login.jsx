@@ -20,7 +20,7 @@ function Login() {
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
       setLoading(true)
-      const result = await googleLogin(credentialResponse.credential)
+      const result = await googleLogin(credentialResponse.credential, 'login')
       if (result.requiresVerification) {
         toast.success(
           'Please verify your email. We sent a 6-digit code to your inbox.'
@@ -73,6 +73,7 @@ function Login() {
       navigate(`${from}${search}`, { replace: true })
     }
   }, [isAuthenticated, navigate, location])
+
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -189,7 +190,7 @@ function Login() {
                     onError={handleGoogleError}
                     theme="outline"
                     size="large"
-                    text="continue_with"
+                    text="signin_with"
                     shape="rectangular"
                   />
                 </div>

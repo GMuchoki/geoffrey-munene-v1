@@ -336,7 +336,7 @@ export const getMe = async (req, res) => {
 // @access  Public
 export const googleAuth = async (req, res) => {
   try {
-    const { token } = req.body
+    const { token, action = 'signup' } = req.body // action: 'login' or 'signup'
 
     if (!token) {
       return res.status(400).json({
@@ -457,7 +457,15 @@ export const googleAuth = async (req, res) => {
         }
         await user.save()
       } else {
-        // Create new user with Google account
+        // If action is 'login' and user doesn't exist, return error
+        if (action === 'login') {
+          return res.status(404).json({
+            success: false,
+            message: 'No account found with this Google account. Please sign up first.',
+          })
+        }
+        
+        // Create new user with Google account (only for signup)
         const TRIAL_TOKENS = parseInt(process.env.TRIAL_TOKENS || '10', 10)
         const userData = {
           firstName: firstName || undefined,
