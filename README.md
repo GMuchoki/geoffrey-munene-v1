@@ -1,4 +1,4 @@
-# Geoffrey Munene - Personal Website
+# Remowork - Remote Work Platform
 
 A modern, full-featured personal website and remote work platform built with the MERN stack (MongoDB, Express.js, React, Node.js). Features include a blog system, AI-powered career tools, remote job listings, YouTube integration, and a comprehensive admin dashboard for content management.
 
@@ -43,7 +43,7 @@ A modern, full-featured personal website and remote work platform built with the
 ## 📁 Project Structure
 
 ```
-geoffrey-munene-v1/
+remowork-v1/
 ├── client/                    # React frontend application
 │   ├── src/
 │   │   ├── components/        # Reusable React components
@@ -135,7 +135,7 @@ geoffrey-munene-v1/
 1. **Clone the repository**
    ```bash
    git clone <your-repo-url>
-   cd geoffrey-munene-v1
+   cd remowork-v1
    ```
 
 2. **Install all dependencies**
@@ -155,7 +155,7 @@ geoffrey-munene-v1/
    ```env
    PORT=5000
    NODE_ENV=development
-   MONGODB_URI=mongodb://localhost:27017/geoffrey-munene
+   MONGODB_URI=mongodb://localhost:27017/remowork
    JWT_SECRET=your-very-secure-random-secret-key-here
    FRONTEND_URL=http://localhost:5173
    
@@ -168,7 +168,7 @@ geoffrey-munene-v1/
    
    For MongoDB Atlas:
    ```env
-   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/geoffrey-munene
+   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/remowork
    ```
 
    **Frontend** (optional) - Create a `.env` file in the `client/` directory:
@@ -445,7 +445,7 @@ ISC
 
 ## 👤 Author
 
-**Geoffrey Munene** - Remote Work Coach & Content Creator
+**Remowork** - Remote Work Platform
 
 Helping people land remote jobs, build digital careers, and achieve work-life balance through practical guidance, tools, and resources.
 

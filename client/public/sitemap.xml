@@ -6,7 +6,7 @@
   
   <!-- Homepage -->
   <url>
-    <loc>https://geoffreymunene.netlify.app/</loc>
+    <loc>https://remowork.life/</loc>
     <lastmod>2024-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -14,7 +14,7 @@
   
   <!-- Blog -->
   <url>
-    <loc>https://geoffreymunene.netlify.app/blog</loc>
+    <loc>https://remowork.life/blog</loc>
     <lastmod>2024-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
@@ -22,7 +22,7 @@
   
   <!-- Tools -->
   <url>
-    <loc>https://geoffreymunene.netlify.app/tools</loc>
+    <loc>https://remowork.life/tools</loc>
     <lastmod>2024-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -30,7 +30,7 @@
   
   <!-- Learn -->
   <url>
-    <loc>https://geoffreymunene.netlify.app/learn</loc>
+    <loc>https://remowork.life/learn</loc>
     <lastmod>2024-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -38,7 +38,7 @@
   
   <!-- Remote Jobs -->
   <url>
-    <loc>https://geoffreymunene.netlify.app/remote-jobs</loc>
+    <loc>https://remowork.life/remote-jobs</loc>
     <lastmod>2024-01-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
@@ -46,7 +46,7 @@
   
   <!-- About -->
   <url>
-    <loc>https://geoffreymunene.netlify.app/about</loc>
+    <loc>https://remowork.life/about</loc>
     <lastmod>2024-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -54,7 +54,7 @@
   
   <!-- Contact -->
   <url>
-    <loc>https://geoffreymunene.netlify.app/contact</loc>
+    <loc>https://remowork.life/contact</loc>
     <lastmod>2024-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -62,7 +62,7 @@
   
   <!-- Terms & Conditions -->
   <url>
-    <loc>https://geoffreymunene.netlify.app/terms</loc>
+    <loc>https://remowork.life/terms</loc>
     <lastmod>2024-01-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
@@ -70,7 +70,7 @@
   
   <!-- Privacy Policy -->
   <url>
-    <loc>https://geoffreymunene.netlify.app/privacy</loc>
+    <loc>https://remowork.life/privacy</loc>
     <lastmod>2024-01-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

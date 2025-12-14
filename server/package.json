@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "Express.js backend API for Geoffrey Munene portfolio",
+  "description": "Express.js backend API for Remowork platform",
   "main": "server.js",
   "type": "module",
   "scripts": {
@@ -46,7 +46,8 @@
     "nodemailer": "^7.0.10",
     "openai": "^6.9.0",
     "react-hot-toast": "^2.6.0",
-    "react-icons": "^5.5.0"
+    "react-icons": "^5.5.0",
+    "resend": "^6.6.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"

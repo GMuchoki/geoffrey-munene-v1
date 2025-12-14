@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer'
+import { Resend } from 'resend'
 
 // Create reusable transporter
 const createTransporter = () => {
@@ -123,13 +124,13 @@ const generateWelcomeEmailHTML = (userEmail, signupPurpose) => {
     
     <p style="color: #666; font-size: 14px;">
       Best regards,<br>
-      <strong>The Geoffrey Munene Team</strong>
+      <strong>The Remowork Team</strong>
     </p>
   </div>
   
   <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #9ca3af; font-size: 12px;">
     <p>This email was sent to ${userEmail}</p>
-    <p>© ${new Date().getFullYear()} Geoffrey Munene. All rights reserved.</p>
+    <p>© ${new Date().getFullYear()} Remowork. All rights reserved.</p>
   </div>
 </body>
 </html>
@@ -164,26 +165,64 @@ Quick Links:
 If you have any questions, feel free to reach out to us. We're here to help!
 
 Best regards,
-The Geoffrey Munene Team
+The Remowork Team
 
 ---
 This email was sent to ${userEmail}
-© ${new Date().getFullYear()} Geoffrey Munene. All rights reserved.
+© ${new Date().getFullYear()} Remowork. All rights reserved.
   `
 }
 
-// Send welcome email
+// Send welcome email using Resend (with SMTP fallback)
 export const sendWelcomeEmail = async (userEmail, signupPurpose) => {
   try {
+    // Check if Resend API key is configured (Priority 1)
+    const resendApiKey = process.env.RESEND_API_KEY
+    
+    if (resendApiKey) {
+      // Use Resend API
+      const resend = new Resend(resendApiKey)
+      
+      // Resend doesn't allow Gmail addresses - use RESEND_FROM_EMAIL or default to onboarding@resend.dev
+      let fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev'
+      // Only use EMAIL_FROM if it's not a Gmail address and not already set via RESEND_FROM_EMAIL
+      if (!process.env.RESEND_FROM_EMAIL && process.env.EMAIL_FROM && !process.env.EMAIL_FROM.includes('@gmail.com')) {
+        fromEmail = process.env.EMAIL_FROM
+      }
+      const fromName = process.env.EMAIL_FROM_NAME || 'Remowork'
+      
+      console.log(`📧 Resend: Sending welcome email from ${fromName} <${fromEmail}> to ${userEmail}`)
+      
+      const { data, error } = await resend.emails.send({
+        from: `${fromName} <${fromEmail}>`,
+        to: [userEmail],
+        subject: '🎉 Welcome to Your Remote Career Journey!',
+        html: generateWelcomeEmailHTML(userEmail, signupPurpose),
+        text: generateWelcomeEmailText(userEmail, signupPurpose),
+      })
+
+      if (error) {
+        console.error('❌ Resend API error (welcome email):', error)
+        console.error('   Status Code:', error.statusCode)
+        console.error('   Message:', error.message)
+        // Fall through to SMTP fallback
+      } else {
+        console.log('✅ Welcome email sent via Resend to:', userEmail)
+        console.log('   Message ID:', data?.id)
+        return { success: true, messageId: data?.id }
+      }
+    }
+
+    // Fallback to nodemailer if Resend is not configured or failed
     const transporter = createTransporter()
     
     if (!transporter) {
       console.warn('Email transporter not available. Skipping welcome email.')
-      return { success: false, error: 'Email service not configured' }
+      return { success: false, error: 'Email service not configured. Please set RESEND_API_KEY or SMTP credentials.' }
     }
 
     const mailOptions = {
-      from: process.env.EMAIL_FROM || process.env.SMTP_USER || process.env.GMAIL_USER || 'noreply@geoffreymunene.com',
+      from: process.env.EMAIL_FROM || process.env.SMTP_USER || process.env.GMAIL_USER || 'noreply@remowork.life',
       to: userEmail,
       subject: '🎉 Welcome to Your Remote Career Journey!',
       text: generateWelcomeEmailText(userEmail, signupPurpose),
@@ -251,13 +290,13 @@ const generateVerificationEmailHTML = (userEmail, verificationCode) => {
     
     <p style="color: #666; font-size: 14px;">
       Best regards,<br>
-      <strong>The Geoffrey Munene Team</strong>
+      <strong>The Remowork Team</strong>
     </p>
   </div>
   
   <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #9ca3af; font-size: 12px;">
     <p>This email was sent to ${userEmail}</p>
-    <p>© ${new Date().getFullYear()} Geoffrey Munene. All rights reserved.</p>
+    <p>© ${new Date().getFullYear()} Remowork. All rights reserved.</p>
   </div>
 </body>
 </html>
@@ -284,26 +323,77 @@ Security Tip: Never share this code with anyone. We will never ask for your veri
 If you have any questions, feel free to reach out to us.
 
 Best regards,
-The Geoffrey Munene Team
+The Remowork Team
 
 ---
 This email was sent to ${userEmail}
-© ${new Date().getFullYear()} Geoffrey Munene. All rights reserved.
+© ${new Date().getFullYear()} Remowork. All rights reserved.
   `
 }
 
-// Send verification code email
+// Send verification code email using Resend
 export const sendVerificationCode = async (userEmail, verificationCode) => {
   try {
+    // Check if Resend API key is configured
+    const resendApiKey = process.env.RESEND_API_KEY
+    
+    if (resendApiKey) {
+      // Use Resend API
+      const resend = new Resend(resendApiKey)
+      
+      // Resend doesn't allow Gmail addresses - use RESEND_FROM_EMAIL or default to onboarding@resend.dev
+      // If EMAIL_FROM is a Gmail address, ignore it and use the default
+      let fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev'
+      // Only use EMAIL_FROM if it's not a Gmail address and not already set via RESEND_FROM_EMAIL
+      if (!process.env.RESEND_FROM_EMAIL && process.env.EMAIL_FROM && !process.env.EMAIL_FROM.includes('@gmail.com')) {
+        fromEmail = process.env.EMAIL_FROM
+      }
+      const fromName = process.env.EMAIL_FROM_NAME || 'Remowork'
+      
+      console.log(`📧 Resend: Sending from ${fromName} <${fromEmail}> to ${userEmail}`)
+      
+      const { data, error } = await resend.emails.send({
+        from: `${fromName} <${fromEmail}>`,
+        to: [userEmail],
+        subject: '✉️ Verify Your Email Address',
+        html: generateVerificationEmailHTML(userEmail, verificationCode),
+        text: generateVerificationEmailText(userEmail, verificationCode),
+      })
+
+      if (error) {
+        console.error('❌ Resend API error:', error)
+        console.error('   Status Code:', error.statusCode)
+        console.error('   Message:', error.message)
+        console.error('   From Email:', fromEmail)
+        console.error('   To Email:', userEmail)
+        
+        // Provide helpful error message
+        let errorMessage = error.message || 'Failed to send email via Resend'
+        if (error.statusCode === 403 && error.message?.includes('domain is not verified')) {
+          errorMessage += '\n   💡 Tip: Resend doesn\'t allow Gmail addresses. Use onboarding@resend.dev or verify your domain.'
+        }
+        if (error.statusCode === 403 && error.message?.includes('only send testing emails')) {
+          errorMessage += '\n   💡 Tip: With onboarding@resend.dev, you can only send to your own email. Verify a domain to send to any email.'
+        }
+        
+        return { success: false, error: errorMessage }
+      }
+
+      console.log('✅ Verification email sent via Resend to:', userEmail)
+      console.log('   Message ID:', data?.id)
+      return { success: true, messageId: data?.id }
+    }
+
+    // Fallback to nodemailer if Resend is not configured
     const transporter = createTransporter()
     
     if (!transporter) {
       console.warn('Email transporter not available. Skipping verification email.')
-      return { success: false, error: 'Email service not configured' }
+      return { success: false, error: 'Email service not configured. Please set RESEND_API_KEY or SMTP credentials.' }
     }
 
     const mailOptions = {
-      from: process.env.EMAIL_FROM || process.env.SMTP_USER || process.env.GMAIL_USER || 'noreply@geoffreymunene.com',
+      from: process.env.EMAIL_FROM || process.env.SMTP_USER || process.env.GMAIL_USER || 'noreply@remowork.life',
       to: userEmail,
       subject: '✉️ Verify Your Email Address',
       text: generateVerificationEmailText(userEmail, verificationCode),
@@ -326,9 +416,84 @@ export const sendVerificationCode = async (userEmail, verificationCode) => {
   }
 }
 
-// Send email (generic function for future use)
-export const sendEmail = async (to, subject, html, text) => {
+// Helper function to get Resend email configuration
+const getResendConfig = (emailType = 'system') => {
+  const resendApiKey = process.env.RESEND_API_KEY
+  
+  if (!resendApiKey) {
+    return null
+  }
+
+  // Determine from email based on type
+  let fromEmail
+  let fromName
+  let replyTo
+
+  if (emailType === 'support') {
+    // Support emails - users can reply
+    fromEmail = process.env.RESEND_SUPPORT_EMAIL || 'support@remowork.life'
+    fromName = process.env.EMAIL_FROM_NAME || 'Remowork Support'
+    replyTo = fromEmail // Allow replies
+  } else {
+    // System notifications - no reply
+    fromEmail = process.env.RESEND_FROM_EMAIL || 'noreply@remowork.life'
+    fromName = process.env.EMAIL_FROM_NAME || 'Remowork'
+    // No reply-to for system emails
+  }
+
+  // Override if EMAIL_FROM is set and not Gmail
+  if (!process.env.RESEND_FROM_EMAIL && !process.env.RESEND_SUPPORT_EMAIL && 
+      process.env.EMAIL_FROM && !process.env.EMAIL_FROM.includes('@gmail.com')) {
+    fromEmail = process.env.EMAIL_FROM
+  }
+
+  return {
+    resend: new Resend(resendApiKey),
+    fromEmail,
+    fromName,
+    replyTo,
+  }
+}
+
+// Send email (generic function with Resend support)
+export const sendEmail = async (to, subject, html, text, options = {}) => {
   try {
+    const { emailType = 'system', replyTo: customReplyTo } = options
+    
+    // Try Resend first
+    const resendConfig = getResendConfig(emailType)
+    
+    if (resendConfig) {
+      const { resend, fromEmail, fromName, replyTo } = resendConfig
+      
+      const emailOptions = {
+        from: `${fromName} <${fromEmail}>`,
+        to: Array.isArray(to) ? to : [to],
+        subject,
+        html: html || text || subject,
+        text: text || subject,
+      }
+
+      // Add reply-to if specified (for support emails)
+      if (replyTo || customReplyTo) {
+        emailOptions.replyTo = customReplyTo || replyTo
+      }
+
+      console.log(`📧 Resend: Sending ${emailType} email from ${fromName} <${fromEmail}> to ${Array.isArray(to) ? to.join(', ') : to}`)
+      
+      const { data, error } = await resend.emails.send(emailOptions)
+
+      if (error) {
+        console.error('❌ Resend API error:', error)
+        // Fall through to SMTP fallback
+      } else {
+        console.log(`✅ Email sent via Resend to: ${Array.isArray(to) ? to.join(', ') : to}`)
+        console.log('   Message ID:', data?.id)
+        return { success: true, messageId: data?.id }
+      }
+    }
+
+    // Fallback to nodemailer
     const transporter = createTransporter()
     
     if (!transporter) {
@@ -337,11 +502,16 @@ export const sendEmail = async (to, subject, html, text) => {
     }
 
     const mailOptions = {
-      from: process.env.EMAIL_FROM || process.env.SMTP_USER || process.env.GMAIL_USER || 'noreply@geoffreymunene.com',
+      from: process.env.EMAIL_FROM || process.env.SMTP_USER || process.env.GMAIL_USER || 'noreply@remowork.life',
       to,
       subject,
       text: text || subject,
       html: html || text || subject,
+    }
+
+    // Add reply-to if specified
+    if (resendConfig?.replyTo || customReplyTo) {
+      mailOptions.replyTo = customReplyTo || resendConfig.replyTo
     }
 
     const info = await transporter.sendMail(mailOptions)
@@ -351,5 +521,13 @@ export const sendEmail = async (to, subject, html, text) => {
     console.error('Error sending email:', error)
     return { success: false, error: error.message }
   }
+}
+
+// Send support email (with reply-to enabled)
+export const sendSupportEmail = async (to, subject, html, text, replyTo = null) => {
+  return sendEmail(to, subject, html, text, {
+    emailType: 'support',
+    replyTo: replyTo || 'support@remowork.life',
+  })
 }
 

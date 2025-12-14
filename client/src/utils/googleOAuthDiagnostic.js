@@ -26,7 +26,8 @@ export const diagnoseGoogleOAuth = () => {
     'http://localhost:5173',
     'http://127.0.0.1:5173',
     'http://localhost:3000',
-    'https://geoffreymunene.netlify.app',
+    'https://remowork.life',
+    'https://www.remowork.life',
   ]
   
   const originMatches = allowedPatterns.some(pattern => 

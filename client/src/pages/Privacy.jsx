@@ -6,7 +6,7 @@ function Privacy() {
     <>
       <SEO
         title="Privacy Policy"
-        description="Learn how Geoffrey Munene collects, uses, and protects your personal information. Our commitment to your privacy and data security."
+        description="Learn how Remowork collects, uses, and protects your personal information. Our commitment to your privacy and data security."
         keywords="privacy policy, data protection, privacy statement, user privacy, data security"
         url="/privacy"
       />
@@ -22,7 +22,7 @@ function Privacy() {
           <div className="content-container">
             <div className="legal-content">
               <p className="intro-text">
-                At Geoffrey Munene, we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website. Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.
+                At Remowork, we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website. Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.
               </p>
 
               <div className="privacy-section">

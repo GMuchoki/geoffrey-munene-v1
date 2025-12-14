@@ -57,9 +57,9 @@ function Contact() {
   return (
     <>
       <SEO
-        title="Contact Geoffrey Munene"
-        description="Get in touch with Geoffrey Munene. Have questions about remote work, need career advice, or want to collaborate? Reach out through the contact form."
-        keywords="contact Geoffrey Munene, remote work consultation, career coaching contact"
+        title="Contact Remowork"
+        description="Get in touch with Remowork. Have questions about remote work, need career advice, or want to collaborate? Reach out through the contact form."
+        keywords="contact Remowork, remote work consultation, career coaching contact"
         url="/contact"
       />
       <div className="contact-page">

@@ -5,9 +5,9 @@ function About() {
   return (
     <>
       <SEO
-        title="About Geoffrey Munene"
-        description="Learn about Geoffrey Munene, a content creator and remote work coach dedicated to helping people navigate the world of remote work and build successful digital careers."
-        keywords="about Geoffrey Munene, remote work coach, content creator, digital nomad coach, remote work expert"
+        title="About Remowork"
+        description="Learn about Remowork, a platform dedicated to helping people navigate the world of remote work and build successful digital careers."
+        keywords="about Remowork, remote work coach, content creator, digital nomad coach, remote work expert"
         url="/about"
       />
       <div className="about-page">
@@ -23,8 +23,8 @@ function About() {
           <div className="about-text">
             <h2 className="content-title">My Mission</h2>
             <p className="content-paragraph">
-              I'm Geoffrey Munene, a content creator and remote work coach dedicated to helping people 
-              navigate the world of remote work. My mission is to empower individuals to land remote jobs, 
+              Remowork is a platform dedicated to helping people 
+              navigate the world of remote work. Our mission is to empower individuals to land remote jobs, 
               work online, and build successful digital careers.
             </p>
             <p className="content-paragraph">

@@ -1,4 +1,4 @@
-# robots.txt for geoffreymunene.netlify.app
+# robots.txt for remowork.life
 
 User-agent: *
 Allow: /
@@ -7,5 +7,5 @@ Allow: /
 Disallow: /admin/
 
 # Sitemap location
-Sitemap: https://geoffreymunene.netlify.app/sitemap.xml
+Sitemap: https://remowork.life/sitemap.xml
 

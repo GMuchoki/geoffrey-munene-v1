@@ -70,9 +70,23 @@ export const UserProvider = ({ children }) => {
       setLoading(true)
       setError(null)
       const response = await userAPI.register(email, password, sessionId, signupPurpose)
+      
+      // Check if email verification is required
+      if (response.requiresVerification) {
+        return {
+          success: true,
+          requiresVerification: true,
+          email: response.email,
+          message: response.message || 'Please verify your email to continue.',
+        }
+      }
+      
       if (response.success) {
-        localStorage.setItem('userToken', response.token)
-        setUser(response.user)
+        // Only set token and user if verification is not required
+        if (response.token) {
+          localStorage.setItem('userToken', response.token)
+          setUser(response.user)
+        }
         return { success: true }
       } else {
         const message = response.message || 'Registration failed'

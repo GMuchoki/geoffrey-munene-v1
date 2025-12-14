@@ -100,7 +100,7 @@ function Signup() {
         if (result.requiresVerification) {
           toast.success('Registration successful! Please check your email for verification code.')
           navigate('/verify-email', { 
-            state: { email },
+            state: { email: result.email || email },
             replace: true 
           })
         } else {

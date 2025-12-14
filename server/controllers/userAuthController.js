@@ -111,10 +111,17 @@ export const register = async (req, res) => {
     sendVerificationCode(user.email, verificationCode)
       .then((result) => {
         if (!result.success) {
-          console.error('Failed to send verification email:', result.error)
+          console.error('❌ Failed to send verification email to', user.email)
+          console.error('   Error:', result.error)
+          console.error('   Code:', verificationCode) // Log code for debugging (remove in production)
+        } else {
+          console.log('✅ Verification code sent successfully to', user.email)
         }
       })
-      .catch((err) => console.error('Error sending verification email:', err))
+      .catch((err) => {
+        console.error('❌ Error sending verification email:', err)
+        console.error('   Stack:', err.stack)
+      })
 
     // Don't generate token yet - user needs to verify email first
     res.status(201).json({

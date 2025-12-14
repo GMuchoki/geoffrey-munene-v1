@@ -115,8 +115,8 @@ function Navbar() {
       <nav className="navbar">
         <div className="navbar-container">
           <Link to={isAuthenticated ? "/user/dashboard" : "/"} className="navbar-logo">
-            <span className="logo-first">Geoffrey</span>
-            <span className="logo-second">Munene</span>
+            <span className="logo-first">Remo</span>
+            <span className="logo-second">work</span>
           </Link>
           
           {/* Desktop Menu */}
@@ -340,8 +340,8 @@ function Navbar() {
       <aside className={`sidebar ${isSidebarOpen ? 'sidebar-open' : ''}`}>
         <div className="sidebar-header">
           <Link to={isAuthenticated ? "/user/dashboard" : "/"} className="sidebar-logo" onClick={handleLinkClick}>
-            <span className="logo-first">Geoffrey</span>
-            <span className="logo-second">Munene</span>
+            <span className="logo-first">Remo</span>
+            <span className="logo-second">work</span>
           </Link>
           <div className="sidebar-utils">
             <button 
