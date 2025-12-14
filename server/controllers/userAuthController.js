@@ -309,6 +309,7 @@ export const googleAuth = async (req, res) => {
         // Link Google account to existing user
         user.googleId = googleId
         user.authProvider = 'google'
+        user.emailVerified = true // Mark email as verified for linked Google accounts
         // Update profile info if not set
         if (!user.preferences?.displayName && name) {
           if (!user.preferences) user.preferences = {}
@@ -318,14 +319,11 @@ export const googleAuth = async (req, res) => {
       } else {
         // Create new user with Google account
         const TRIAL_TOKENS = parseInt(process.env.TRIAL_TOKENS || '10', 10)
-        const { code, expires } = createVerificationCode()
         const userData = {
           email: email.toLowerCase(),
           googleId,
           authProvider: 'google',
-          emailVerified: false,
-          verificationCode: code,
-          verificationCodeExpires: expires,
+          emailVerified: true, // Google already verifies emails
           tokens: TRIAL_TOKENS,
           trialTokensGiven: true,
           progress: {
@@ -348,29 +346,14 @@ export const googleAuth = async (req, res) => {
     } else {
       // Update last activity for existing user
       user.lastActivity = new Date()
-      await user.save()
-    }
-
-    // Enforce email verification for Google accounts
-    if (!user.emailVerified) {
-      const { code, expires } = createVerificationCode()
-      user.verificationCode = code
-      user.verificationCodeExpires = expires
-      await user.save()
-
-      // Send verification email asynchronously (non-blocking)
-      if (user.email) {
-        sendVerificationCode(user.email, code)
-          .catch((err) => console.error('Error sending verification email (Google auth):', err))
+      // Ensure email is marked as verified for existing Google users
+      if (user.authProvider === 'google' && !user.emailVerified) {
+        user.emailVerified = true
       }
-
-      return res.status(200).json({
-        success: true,
-        requiresVerification: true,
-        message: 'Please verify your email to continue. We sent a 6-digit code.',
-        email: user.email,
-      })
+      await user.save()
     }
+
+    // Google users don't need email verification - Google already verifies emails
 
     // Generate JWT token
     const jwtToken = generateToken(user._id)
