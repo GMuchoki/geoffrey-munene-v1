@@ -4,6 +4,7 @@ import { useUser } from '../contexts/UserContext'
 import { GoogleLogin } from '@react-oauth/google'
 import SEO from '../components/SEO'
 import toast from 'react-hot-toast'
+import { logDiagnostics } from '../utils/googleOAuthDiagnostic.js'
 import '../styles/pages/login.css'
 
 function Login() {
@@ -41,8 +42,25 @@ function Login() {
     }
   }
 
-  const handleGoogleError = () => {
-    toast.error('Google login failed. Please try again.')
+  const handleGoogleError = (error) => {
+    console.error('Google login error:', error)
+    
+    // Run diagnostics on error
+    if (import.meta.env.DEV) {
+      console.log('Running diagnostics due to Google login error...')
+      logDiagnostics()
+    }
+    
+    if (error?.error === 'popup_closed_by_user') {
+      toast.error('Sign-in was cancelled')
+    } else if (error?.error === 'popup_blocked') {
+      toast.error('Popup was blocked. Please allow popups for this site.')
+    } else if (error?.error === 'access_denied') {
+      toast.error('Access denied. Please try again or use email/password login.')
+    } else {
+      toast.error('Google login failed. Please try again.')
+      console.error('Full error details:', error)
+    }
   }
 
   // Redirect if already logged in
@@ -130,21 +148,24 @@ function Login() {
               </button>
             </form>
 
-            <div className="login-divider">
-              <span>OR</span>
-            </div>
+            {import.meta.env.VITE_GOOGLE_CLIENT_ID && (
+              <>
+                <div className="login-divider">
+                  <span>OR</span>
+                </div>
 
-            <div className="google-login-wrapper">
-              <GoogleLogin
-                onSuccess={handleGoogleSuccess}
-                onError={handleGoogleError}
-                useOneTap
-                theme="outline"
-                size="large"
-                text="continue_with"
-                shape="rectangular"
-              />
-            </div>
+                <div className="google-login-wrapper">
+                  <GoogleLogin
+                    onSuccess={handleGoogleSuccess}
+                    onError={handleGoogleError}
+                    theme="outline"
+                    size="large"
+                    text="continue_with"
+                    shape="rectangular"
+                  />
+                </div>
+              </>
+            )}
 
             <div className="login-footer">
               <p>

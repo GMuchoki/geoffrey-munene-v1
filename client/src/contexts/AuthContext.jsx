@@ -34,6 +34,9 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(true)
       }
     } catch (error) {
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/46da804e-cefa-40d4-bfb3-c261e0da36f5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'C',location:'client/src/contexts/AuthContext.jsx:checkAuth',message:'checkAuth failed',data:{status:error.response?.status||null,reason:error.message},timestamp:Date.now()})}).catch(()=>{})
+      // #endregion
       localStorage.removeItem('adminToken')
       setIsAuthenticated(false)
       setAdmin(null)
@@ -45,6 +48,9 @@ export const AuthProvider = ({ children }) => {
   const login = async (username, password) => {
     try {
       const response = await adminAPI.login({ username, password })
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/46da804e-cefa-40d4-bfb3-c261e0da36f5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:'debug-session',runId:'pre-fix',hypothesisId:'B',location:'client/src/contexts/AuthContext.jsx:login',message:'admin login response',data:{success:response?.success===true,hasToken:!!response?.token,adminId:response?.admin?._id??null},timestamp:Date.now()})}).catch(()=>{})
+      // #endregion
       if (response.success) {
         localStorage.setItem('adminToken', response.token)
         setAdmin(response.admin)

@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { Toaster } from 'react-hot-toast'
@@ -6,6 +7,7 @@ import { ThemeProvider } from './contexts/ThemeContext'
 import { AuthProvider } from './contexts/AuthContext'
 import { UserProvider } from './contexts/UserContext'
 import { TokenProvider } from './contexts/TokenContext'
+import { logDiagnostics } from './utils/googleOAuthDiagnostic.js'
 import Home from './pages/Home'
 import About from './pages/About'
 import Blog from './pages/Blog'
@@ -53,6 +55,22 @@ import './styles/app.css'
 
 function App() {
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || ''
+
+  // Warn if Google Client ID is missing and run diagnostics
+  useEffect(() => {
+    if (!googleClientId) {
+      console.warn(
+        '⚠️ Google OAuth Client ID is missing. Google Sign-In will not work.\n' +
+        'Please set VITE_GOOGLE_CLIENT_ID in your client/.env file.\n' +
+        'See GOOGLE_OAUTH_SETUP.md for instructions.'
+      )
+    } else {
+      // Run diagnostics in development
+      if (import.meta.env.DEV) {
+        logDiagnostics()
+      }
+    }
+  }, [googleClientId])
 
   return (
     <ErrorBoundary>

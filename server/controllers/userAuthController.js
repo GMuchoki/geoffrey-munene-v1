@@ -262,6 +262,15 @@ export const googleAuth = async (req, res) => {
       })
     }
 
+    // Check if Google Client ID is configured
+    if (!process.env.GOOGLE_CLIENT_ID) {
+      logger.error('Google OAuth Client ID is not configured')
+      return res.status(500).json({
+        success: false,
+        message: 'Google authentication is not properly configured. Please contact support.',
+      })
+    }
+
     // Initialize Google OAuth client
     const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 
