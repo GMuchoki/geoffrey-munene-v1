@@ -41,11 +41,11 @@ export const UserProvider = ({ children }) => {
     }
   }, [fetchUser])
 
-  const login = async (email, password) => {
+  const login = async (identifier, password) => {
     try {
       setLoading(true)
       setError(null)
-      const response = await userAPI.login(email, password)
+      const response = await userAPI.login(identifier, password)
       if (response.success) {
         localStorage.setItem('userToken', response.token)
         setUser(response.user)

@@ -97,8 +97,13 @@ export const userAPI = {
     })
     return response.data
   },
-  login: async (email, password) => {
-    const response = await api.post('/users/login', { email, password })
+  login: async (identifier, password) => {
+    // Determine if identifier is email or username
+    const isEmail = identifier.includes('@')
+    const payload = isEmail 
+      ? { email: identifier, password }
+      : { username: identifier, password }
+    const response = await api.post('/users/login', payload)
     return response.data
   },
   googleAuth: async (token) => {

@@ -5,11 +5,13 @@ import { GoogleLogin } from '@react-oauth/google'
 import SEO from '../components/SEO'
 import toast from 'react-hot-toast'
 import { logDiagnostics } from '../utils/googleOAuthDiagnostic.js'
+import { HiEye, HiEyeSlash } from 'react-icons/hi2'
 import '../styles/pages/login.css'
 
 function Login() {
-  const [email, setEmail] = useState('')
+  const [identifier, setIdentifier] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const { login, googleLogin, isAuthenticated } = useUser()
   const navigate = useNavigate()
@@ -74,10 +76,21 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    
+    if (!identifier.trim()) {
+      toast.error('Please enter your email or username')
+      return
+    }
+    
+    if (!password) {
+      toast.error('Please enter your password')
+      return
+    }
+    
     setLoading(true)
 
     try {
-      const result = await login(email, password)
+      const result = await login(identifier.trim(), password)
       if (result.success) {
         toast.success('Login successful!')
         const from = location.state?.from?.pathname || '/user/dashboard'
@@ -87,6 +100,8 @@ function Login() {
         // Check if email verification is required
         if (result.requiresVerification) {
           toast.error(result.message || 'Please verify your email address')
+          // Extract email from identifier if it's an email, otherwise use the identifier
+          const email = identifier.includes('@') ? identifier : result.email || identifier
           navigate('/verify-email', { 
             state: { email },
             replace: false 
@@ -117,30 +132,44 @@ function Login() {
 
             <form onSubmit={handleSubmit} className="login-form">
               <div className="form-group">
-                <label htmlFor="email">Email Address</label>
+                <label htmlFor="identifier">Email or Username</label>
                 <input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your.email@example.com"
+                  id="identifier"
+                  type="text"
+                  value={identifier}
+                  onChange={(e) => setIdentifier(e.target.value)}
+                  placeholder="your.email@example.com or username"
                   required
                   disabled={loading}
+                  autoComplete="username"
                 />
+                <small className="form-hint">You can login with your email address or username</small>
               </div>
 
               <div className="form-group">
                 <label htmlFor="password">Password</label>
-                <input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
-                  required
-                  disabled={loading}
-                  minLength={8}
-                />
+                <div className="password-input-wrapper">
+                  <input
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter your password"
+                    required
+                    disabled={loading}
+                    minLength={8}
+                    autoComplete="current-password"
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() => setShowPassword(!showPassword)}
+                    disabled={loading}
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  >
+                    {showPassword ? <HiEyeSlash /> : <HiEye />}
+                  </button>
+                </div>
               </div>
 
               <button type="submit" disabled={loading} className="login-button">
