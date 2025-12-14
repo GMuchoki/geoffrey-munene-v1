@@ -69,6 +69,7 @@ export const register = async (req, res) => {
       // Migrate existing session user to registered user
       existingUser.email = email.toLowerCase()
       existingUser.password = password
+      existingUser.authProvider = 'local' // Set auth provider for manual signups
       existingUser.emailVerified = false
       existingUser.verificationCode = verificationCode
       existingUser.verificationCodeExpires = verificationCodeExpires
@@ -83,6 +84,7 @@ export const register = async (req, res) => {
       const userData = {
         email: email.toLowerCase(),
         password,
+        authProvider: 'local', // Set auth provider for manual signups
         emailVerified: false,
         verificationCode,
         verificationCodeExpires,
@@ -175,7 +177,9 @@ export const login = async (req, res) => {
     }
 
     // Check if email is verified (only for local auth, Google users are auto-verified)
-    if (user.authProvider === 'local' && !user.emailVerified) {
+    // Also check if authProvider is null/undefined (legacy users or manual signups without authProvider set)
+    const isLocalAuth = user.authProvider === 'local' || (!user.authProvider && user.password)
+    if (isLocalAuth && !user.emailVerified) {
       return res.status(403).json({
         success: false,
         message: 'Please verify your email address before logging in. Check your inbox for the verification code.',
