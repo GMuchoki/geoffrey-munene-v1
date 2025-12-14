@@ -7,7 +7,7 @@
   <!-- Homepage -->
   <url>
     <loc>https://remowork.life/</loc>
-    <lastmod>2024-01-01</lastmod>
+    <lastmod>2024-12-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -15,7 +15,7 @@
   <!-- Blog -->
   <url>
     <loc>https://remowork.life/blog</loc>
-    <lastmod>2024-01-01</lastmod>
+    <lastmod>2024-12-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
@@ -23,7 +23,7 @@
   <!-- Tools -->
   <url>
     <loc>https://remowork.life/tools</loc>
-    <lastmod>2024-01-01</lastmod>
+    <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -31,7 +31,7 @@
   <!-- Learn -->
   <url>
     <loc>https://remowork.life/learn</loc>
-    <lastmod>2024-01-01</lastmod>
+    <lastmod>2024-12-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -39,15 +39,31 @@
   <!-- Remote Jobs -->
   <url>
     <loc>https://remowork.life/remote-jobs</loc>
-    <lastmod>2024-01-01</lastmod>
+    <lastmod>2024-12-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
+  </url>
+  
+  <!-- Community -->
+  <url>
+    <loc>https://remowork.life/community</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Services -->
+  <url>
+    <loc>https://remowork.life/services</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   
   <!-- About -->
   <url>
     <loc>https://remowork.life/about</loc>
-    <lastmod>2024-01-01</lastmod>
+    <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -55,7 +71,7 @@
   <!-- Contact -->
   <url>
     <loc>https://remowork.life/contact</loc>
-    <lastmod>2024-01-01</lastmod>
+    <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -63,7 +79,7 @@
   <!-- Terms & Conditions -->
   <url>
     <loc>https://remowork.life/terms</loc>
-    <lastmod>2024-01-01</lastmod>
+    <lastmod>2024-12-19</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
@@ -71,10 +87,17 @@
   <!-- Privacy Policy -->
   <url>
     <loc>https://remowork.life/privacy</loc>
-    <lastmod>2024-01-01</lastmod>
+    <lastmod>2024-12-19</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+  
+  <!-- 
+    Note: Dynamic blog post and job detail URLs should be generated server-side
+    or via a sitemap generation script. Individual blog posts and jobs are not
+    included here as they change frequently. Consider implementing a dynamic
+    sitemap endpoint that generates URLs from the database.
+  -->
   
 </urlset>
 

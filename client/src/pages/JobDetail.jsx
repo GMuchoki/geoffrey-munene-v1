@@ -3,6 +3,8 @@ import { useParams, Link, useLocation } from 'react-router-dom'
 import { jobsAPI } from '../services/api'
 import SEO from '../components/SEO'
 import SkeletonLoader from '../components/SkeletonLoader'
+import { getJobPostingSchema, getBreadcrumbSchema } from '../utils/structuredData'
+import { trackEvent } from '../components/GoogleAnalytics'
 import '../styles/pages/job-detail.css'
 
 function JobDetail() {
@@ -151,6 +153,15 @@ function JobDetail() {
     )
   }
 
+  const jobPostingSchema = getJobPostingSchema(job)
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: 'Home', url: 'https://remowork.life/' },
+    { name: 'Remote Jobs', url: 'https://remowork.life/remote-jobs' },
+    { name: `${job.title} at ${job.company}`, url: `https://remowork.life/remote-jobs/${id}` },
+  ])
+  
+  const structuredData = [jobPostingSchema, breadcrumbSchema].filter(Boolean)
+
   return (
     <>
       <SEO
@@ -158,6 +169,8 @@ function JobDetail() {
         description={job.description ? job.description.substring(0, 160) : `Remote job opportunity: ${job.title} at ${job.company}`}
         keywords={`${job.title}, ${job.company}, remote jobs, ${job.category}`}
         url={`/remote-jobs/${id}`}
+        type="article"
+        structuredData={structuredData}
       />
       <div className="job-detail-page">
         <div className="job-detail-container">
@@ -263,6 +276,9 @@ function JobDetail() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="apply-button-primary"
+                  onClick={() => {
+                    trackEvent('job_apply_click', 'jobs', `${job.title} at ${job.company}`, 1)
+                  }}
                 >
                   Apply Now →
                 </a>
@@ -311,6 +327,7 @@ function JobDetail() {
                     onClick={() => {
                       navigator.clipboard.writeText(window.location.href)
                       alert('Job link copied to clipboard!')
+                      trackEvent('job_share', 'jobs', job.title, 1)
                     }}
                     className="share-button"
                   >

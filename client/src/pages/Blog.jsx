@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { blogsAPI } from '../services/api'
 import SEO from '../components/SEO'
 import SkeletonLoader from '../components/SkeletonLoader'
+import { getCollectionPageSchema, getBreadcrumbSchema } from '../utils/structuredData'
 import { HiMagnifyingGlass } from 'react-icons/hi2'
 import '../styles/pages/blog.css'
 
@@ -109,6 +110,18 @@ function Blog() {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber)
 
+  const collectionSchema = getCollectionPageSchema(
+    '/blog',
+    'Remote Work Blog',
+    'Expert tips, guides, and insights on remote work, job searching, productivity, and building a successful remote career.'
+  )
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: 'Home', url: 'https://remowork.life/' },
+    { name: 'Blog', url: 'https://remowork.life/blog' },
+  ])
+  
+  const structuredData = [collectionSchema, breadcrumbSchema]
+
   return (
     <>
       <SEO
@@ -116,6 +129,7 @@ function Blog() {
         description="Expert tips, guides, and insights on remote work, job searching, productivity, and building a successful remote career. Learn from real experiences and proven strategies."
         keywords="remote work blog, remote work tips, work from home advice, remote job search, digital nomad blog, remote career advice"
         url="/blog"
+        structuredData={structuredData}
       />
       <div className="blog-page">
       <section className="blog-hero">

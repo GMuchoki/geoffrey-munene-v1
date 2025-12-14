@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { blogsAPI } from '../services/api'
 import SEO from '../components/SEO'
+import { getArticleSchema, getBreadcrumbSchema } from '../utils/structuredData'
 import '../styles/pages/blog-detail.css'
 
 function BlogDetail() {
@@ -52,6 +53,16 @@ function BlogDetail() {
     )
   }
 
+  // Generate structured data for article
+  const articleSchema = getArticleSchema(blog)
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: 'Home', url: 'https://remowork.life/' },
+    { name: 'Blog', url: 'https://remowork.life/blog' },
+    { name: blog.title, url: `https://remowork.life/blog/${id}` },
+  ])
+  
+  const structuredData = [articleSchema, breadcrumbSchema].filter(Boolean)
+
   return (
     <>
       <SEO
@@ -61,6 +72,10 @@ function BlogDetail() {
         image={blog.thumbnail || undefined}
         url={`/blog/${id}`}
         type="article"
+        publishedTime={blog.createdAt}
+        modifiedTime={blog.updatedAt || blog.createdAt}
+        author="Geoffrey Munene"
+        structuredData={structuredData}
       />
       <div className="blog-detail-page">
       {blog.thumbnail && (

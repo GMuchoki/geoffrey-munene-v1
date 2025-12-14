@@ -1,7 +1,16 @@
 import SEO from '../components/SEO'
+import { getPersonSchema, getBreadcrumbSchema } from '../utils/structuredData'
 import '../styles/pages/about.css'
 
 function About() {
+  const personSchema = getPersonSchema()
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: 'Home', url: 'https://remowork.life/' },
+    { name: 'About', url: 'https://remowork.life/about' },
+  ])
+  
+  const structuredData = [personSchema, breadcrumbSchema]
+
   return (
     <>
       <SEO
@@ -9,6 +18,7 @@ function About() {
         description="Learn about Remowork, a platform dedicated to helping people navigate the world of remote work and build successful digital careers."
         keywords="about Remowork, remote work coach, content creator, digital nomad coach, remote work expert"
         url="/about"
+        structuredData={structuredData}
       />
       <div className="about-page">
       <section className="about-hero">

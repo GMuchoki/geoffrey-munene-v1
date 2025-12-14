@@ -387,6 +387,8 @@ YOUTUBE_API_KEY=your_youtube_key
 ### Frontend (`client/.env`)
 ```env
 VITE_API_URL=http://localhost:5000/api
+VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+VITE_GOOGLE_CLIENT_ID=your_google_client_id.apps.googleusercontent.com
 ```
 
 ## 🐛 Troubleshooting

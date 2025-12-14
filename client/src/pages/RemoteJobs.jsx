@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { jobsAPI } from '../services/api'
 import SEO from '../components/SEO'
 import SkeletonLoader from '../components/SkeletonLoader'
+import { getCollectionPageSchema, getBreadcrumbSchema } from '../utils/structuredData'
 import '../styles/pages/remote-jobs.css'
 
 function RemoteJobs() {
@@ -210,6 +211,18 @@ function RemoteJobs() {
     },
   ]
 
+  const collectionSchema = getCollectionPageSchema(
+    '/remote-jobs',
+    'Remote Jobs',
+    'Find your dream remote job. Browse curated remote work opportunities across various industries. Search and filter by category, location, and job type.'
+  )
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: 'Home', url: 'https://remowork.life/' },
+    { name: 'Remote Jobs', url: 'https://remowork.life/remote-jobs' },
+  ])
+  
+  const structuredData = [collectionSchema, breadcrumbSchema]
+
   return (
     <>
       <SEO
@@ -217,6 +230,7 @@ function RemoteJobs() {
         description="Find your dream remote job. Browse curated remote work opportunities across various industries. Search and filter by category, location, and job type."
         keywords="remote jobs, work from home jobs, remote work opportunities, online jobs, remote job board, telecommute jobs"
         url="/remote-jobs"
+        structuredData={structuredData}
       />
       <div className="remote-jobs-page">
       <section className="remote-jobs-hero">

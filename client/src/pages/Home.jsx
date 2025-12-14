@@ -4,6 +4,7 @@ import { useUser } from '../contexts/UserContext'
 import { blogsAPI, testimonialsAPI } from '../services/api'
 import SEO from '../components/SEO'
 import SkeletonLoader from '../components/SkeletonLoader'
+import { getOrganizationSchema, getWebsiteSchema } from '../utils/structuredData'
 import { 
   HiBriefcase, 
   HiAcademicCap, 
@@ -83,6 +84,12 @@ function Home() {
     )
   }
 
+  // Combine Organization and Website schemas for homepage
+  const structuredData = [
+    getOrganizationSchema(),
+    getWebsiteSchema(),
+  ]
+
   return (
     <>
       <SEO
@@ -90,6 +97,7 @@ function Home() {
         description="Learn how to land your dream remote job. Get free tools, resources, and guidance to build a successful remote career. AI-powered resume builder, job listings, and video tutorials."
         keywords="remote work, remote jobs, work from home, digital nomad, remote career, online jobs, remote work tips, remote work coaching"
         url="/"
+        structuredData={structuredData}
       />
       <div className="home-page">
       {/* Hero Section */}

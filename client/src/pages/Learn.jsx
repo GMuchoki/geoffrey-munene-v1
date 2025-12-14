@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useUser } from '../contexts/UserContext'
 import { youtubeAPI } from '../services/api'
 import SEO from '../components/SEO'
+import { getCollectionPageSchema, getBreadcrumbSchema } from '../utils/structuredData'
 import '../styles/pages/learn.css'
 
 const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@munenegeoffrey'
@@ -120,15 +121,32 @@ function Learn() {
     },
   ]
 
+  const learnUrl = isAuthenticated ? "/user/learn" : "/learn"
+  const learnTitle = isAuthenticated ? "My Courses - Learn Remote Work" : "Learn Remote Work"
+  const learnDescription = isAuthenticated 
+    ? "Access your enrolled courses, track progress, and discover new learning resources for remote work."
+    : "Comprehensive tutorials, YouTube playlists, and resources to accelerate your remote work journey. Learn from video tutorials, guides, and expert tips."
+
+  const collectionSchema = getCollectionPageSchema(
+    learnUrl,
+    learnTitle,
+    learnDescription
+  )
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: 'Home', url: 'https://remowork.life/' },
+    { name: 'Learn', url: `https://remowork.life${learnUrl}` },
+  ])
+  
+  const structuredData = [collectionSchema, breadcrumbSchema]
+
   return (
     <>
       <SEO
-        title={isAuthenticated ? "My Courses - Learn Remote Work" : "Learn Remote Work"}
-        description={isAuthenticated 
-          ? "Access your enrolled courses, track progress, and discover new learning resources for remote work."
-          : "Comprehensive tutorials, YouTube playlists, and resources to accelerate your remote work journey. Learn from video tutorials, guides, and expert tips."}
+        title={learnTitle}
+        description={learnDescription}
         keywords="remote work tutorials, remote work courses, learn remote work, remote work training, work from home guide, remote work skills"
-        url={isAuthenticated ? "/user/learn" : "/learn"}
+        url={learnUrl}
+        structuredData={structuredData}
       />
       <div className="learn-page">
       <section className="learn-hero">

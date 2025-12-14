@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { contactAPI } from '../services/api'
 import SEO from '../components/SEO'
+import { getBreadcrumbSchema } from '../utils/structuredData'
+import { trackEvent } from '../components/GoogleAnalytics'
 import toast from 'react-hot-toast'
 import { 
   HiEnvelope,
@@ -45,14 +47,25 @@ function Contact() {
       setSuccess(true)
       setFormData({ name: '', email: '', subject: '', message: '' })
       toast.success('Message sent successfully! I will get back to you soon.')
+      
+      // Track successful form submission
+      trackEvent('form_submit', 'contact', formData.subject, 1)
     } catch (err) {
       const errorMsg = err.response?.data?.message || 'Failed to send message. Please try again.'
       setError(errorMsg)
       toast.error(errorMsg)
+      
+      // Track form submission error
+      trackEvent('form_error', 'contact', formData.subject, 0)
     } finally {
       setLoading(false)
     }
   }
+
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: 'Home', url: 'https://remowork.life/' },
+    { name: 'Contact', url: 'https://remowork.life/contact' },
+  ])
 
   return (
     <>
@@ -61,6 +74,7 @@ function Contact() {
         description="Get in touch with Remowork. Have questions about remote work, need career advice, or want to collaborate? Reach out through the contact form."
         keywords="contact Remowork, remote work consultation, career coaching contact"
         url="/contact"
+        structuredData={[breadcrumbSchema]}
       />
       <div className="contact-page">
       {/* Blue Banner Section */}
