@@ -84,8 +84,17 @@ export const toolsAPI = {
 
 // User Auth API
 export const userAPI = {
-  register: async (email, password, sessionId, signupPurpose = null) => {
-    const response = await api.post('/users/register', { email, password, sessionId, signupPurpose })
+  register: async (firstName, middleName, lastName, username, email, password, sessionId, signupPurpose = null) => {
+    const response = await api.post('/users/register', { 
+      firstName, 
+      middleName, 
+      lastName, 
+      username, 
+      email, 
+      password, 
+      sessionId, 
+      signupPurpose 
+    })
     return response.data
   },
   login: async (email, password) => {

@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'
 import { sendWelcomeEmail, sendVerificationCode } from '../utils/emailService.js'
 import logger from '../utils/logger.js'
 import { OAuth2Client } from 'google-auth-library'
+import { isValidPassword, isValidUsername, isValidName, isValidEmail } from '../utils/validators.js'
 
 // Generate JWT token for users
 const generateToken = (userId) => {
@@ -24,30 +25,80 @@ const createVerificationCode = () => {
 // @access  Public
 export const register = async (req, res) => {
   try {
-    const { email, password, sessionId, signupPurpose } = req.body
+    const { firstName, middleName, lastName, username, email, password, sessionId, signupPurpose } = req.body
 
-    // Validation
-    if (!email || !password) {
+    // Validation - Required fields
+    if (!firstName || !lastName || !username || !email || !password) {
       return res.status(400).json({
         success: false,
-        message: 'Please provide email and password',
+        message: 'Please provide first name, last name, username, email, and password',
       })
     }
 
-    if (password.length < 8) {
+    // Validate names
+    if (!isValidName(firstName)) {
       return res.status(400).json({
         success: false,
-        message: 'Password must be at least 8 characters',
+        message: 'First name must be 2-50 characters and contain only letters, spaces, or hyphens',
       })
     }
 
-    // Check if user already exists
+    if (!isValidName(lastName)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Last name must be 2-50 characters and contain only letters, spaces, or hyphens',
+      })
+    }
+
+    // Validate middle name if provided
+    if (middleName && !isValidName(middleName)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Middle name must be 2-50 characters and contain only letters, spaces, or hyphens',
+      })
+    }
+
+    // Validate username
+    if (!isValidUsername(username)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Username must be 3-20 characters and contain only letters, numbers, and underscores',
+      })
+    }
+
+    // Validate email
+    if (!isValidEmail(email)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide a valid email address',
+      })
+    }
+
+    // Validate password
+    if (!isValidPassword(password)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Password must be at least 8 characters and contain uppercase, lowercase, number, and special character',
+      })
+    }
+
+    // Check if user already exists with email
     const userExists = await User.findOne({ email: email.toLowerCase() })
 
     if (userExists) {
       return res.status(400).json({
         success: false,
         message: 'User already exists with this email',
+      })
+    }
+
+    // Check if username already exists
+    const usernameExists = await User.findOne({ username: username.toLowerCase() })
+
+    if (usernameExists) {
+      return res.status(400).json({
+        success: false,
+        message: 'Username is already taken',
       })
     }
 
@@ -67,6 +118,10 @@ export const register = async (req, res) => {
 
     if (existingUser && !existingUser.email) {
       // Migrate existing session user to registered user
+      existingUser.firstName = firstName.trim()
+      existingUser.middleName = middleName ? middleName.trim() : undefined
+      existingUser.lastName = lastName.trim()
+      existingUser.username = username.toLowerCase().trim()
       existingUser.email = email.toLowerCase()
       existingUser.password = password
       existingUser.authProvider = 'local' // Set auth provider for manual signups
@@ -82,6 +137,10 @@ export const register = async (req, res) => {
     } else {
       // Create new user
       const userData = {
+        firstName: firstName.trim(),
+        middleName: middleName ? middleName.trim() : undefined,
+        lastName: lastName.trim(),
+        username: username.toLowerCase().trim(),
         email: email.toLowerCase(),
         password,
         authProvider: 'local', // Set auth provider for manual signups
@@ -201,6 +260,10 @@ export const login = async (req, res) => {
       token,
       user: {
         id: user._id,
+        firstName: user.firstName,
+        middleName: user.middleName,
+        lastName: user.lastName,
+        username: user.username,
         email: user.email,
         tokens: user.tokens,
         signupPurpose: user.signupPurpose,
@@ -237,6 +300,10 @@ export const getMe = async (req, res) => {
       success: true,
       user: {
         id: user._id,
+        firstName: user.firstName,
+        middleName: user.middleName,
+        lastName: user.lastName,
+        username: user.username,
         email: user.email,
         tokens: user.tokens,
         trialTokensGiven: user.trialTokensGiven,
@@ -300,13 +367,57 @@ export const googleAuth = async (req, res) => {
     }
 
     const payload = ticket.getPayload()
-    const { sub: googleId, email, name, picture } = payload
+    const { sub: googleId, email, name, given_name, family_name, picture } = payload
 
     if (!email) {
       return res.status(400).json({
         success: false,
         message: 'Email not provided by Google',
       })
+    }
+
+    // Extract name parts from Google profile
+    let firstName = given_name || ''
+    let lastName = family_name || ''
+    
+    // If name is provided but given_name/family_name are not, try to parse
+    if (name && (!firstName || !lastName)) {
+      const nameParts = name.trim().split(/\s+/)
+      if (nameParts.length >= 2) {
+        firstName = nameParts[0]
+        lastName = nameParts.slice(1).join(' ')
+      } else if (nameParts.length === 1) {
+        firstName = nameParts[0]
+      }
+    }
+
+    // Generate username from email or name
+    const generateUsername = (email, firstName, lastName) => {
+      if (firstName && lastName) {
+        const base = `${firstName}${lastName}`.toLowerCase().replace(/[^a-z0-9]/g, '')
+        return base.substring(0, 20) || email.split('@')[0].substring(0, 20)
+      }
+      return email.split('@')[0].substring(0, 20)
+    }
+    
+    let username = generateUsername(email, firstName, lastName)
+    
+    // Ensure username is unique
+    let usernameExists = await User.findOne({ username })
+    let counter = 1
+    while (usernameExists) {
+      const newUsername = `${username}${counter}`.substring(0, 20)
+      usernameExists = await User.findOne({ username: newUsername })
+      if (!usernameExists) {
+        username = newUsername
+        break
+      }
+      counter++
+      if (counter > 999) {
+        // Fallback to email-based username with timestamp
+        username = `${email.split('@')[0]}${Date.now().toString().slice(-6)}`.substring(0, 20)
+        break
+      }
     }
 
     // Check if user exists with this Google ID
@@ -322,6 +433,19 @@ export const googleAuth = async (req, res) => {
         user.authProvider = 'google'
         user.emailVerified = true // Mark email as verified for linked Google accounts
         // Update profile info if not set
+        if (!user.firstName && firstName) {
+          user.firstName = firstName
+        }
+        if (!user.lastName && lastName) {
+          user.lastName = lastName
+        }
+        if (!user.username && username) {
+          // Check if username is available
+          const usernameCheck = await User.findOne({ username })
+          if (!usernameCheck) {
+            user.username = username
+          }
+        }
         if (!user.preferences?.displayName && name) {
           if (!user.preferences) user.preferences = {}
           user.preferences.displayName = name
@@ -331,6 +455,9 @@ export const googleAuth = async (req, res) => {
         // Create new user with Google account
         const TRIAL_TOKENS = parseInt(process.env.TRIAL_TOKENS || '10', 10)
         const userData = {
+          firstName: firstName || undefined,
+          lastName: lastName || undefined,
+          username: username,
           email: email.toLowerCase(),
           googleId,
           authProvider: 'google',
@@ -375,6 +502,10 @@ export const googleAuth = async (req, res) => {
       token: jwtToken,
       user: {
         id: user._id,
+        firstName: user.firstName,
+        middleName: user.middleName,
+        lastName: user.lastName,
+        username: user.username,
         email: user.email,
         tokens: user.tokens,
         signupPurpose: user.signupPurpose,
@@ -480,6 +611,10 @@ export const verifyEmail = async (req, res) => {
       token,
       user: {
         id: user._id,
+        firstName: user.firstName,
+        middleName: user.middleName,
+        lastName: user.lastName,
+        username: user.username,
         email: user.email,
         emailVerified: user.emailVerified,
         tokens: user.tokens,

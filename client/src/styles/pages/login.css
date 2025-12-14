@@ -30,12 +30,76 @@
   @apply block text-sm font-medium text-gray-700 dark:text-gray-300;
 }
 
+.login-form label .required {
+  @apply text-red-500 dark:text-red-400;
+}
+
+.login-form label .optional {
+  @apply text-gray-500 dark:text-gray-400 text-xs font-normal;
+}
+
 .login-form input {
   @apply w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100;
 }
 
+.password-input-wrapper {
+  @apply relative;
+}
+
+.password-input-wrapper input {
+  @apply pr-12;
+}
+
+.password-toggle {
+  @apply absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 cursor-pointer bg-transparent border-none p-0 flex items-center justify-center transition-colors;
+}
+
+.password-toggle:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+.password-toggle:focus {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-2 rounded;
+}
+
 .login-form .form-hint {
   @apply text-xs text-gray-500 dark:text-gray-400;
+}
+
+.login-form .form-error {
+  @apply text-xs text-red-500 dark:text-red-400;
+}
+
+.login-form .form-success {
+  @apply text-xs text-green-600 dark:text-green-400;
+}
+
+.password-requirements {
+  @apply mt-2 space-y-1.5;
+}
+
+.password-requirements .requirement {
+  @apply flex items-center gap-2 text-sm transition-colors;
+}
+
+.password-requirements .requirement.met {
+  @apply text-green-600 dark:text-green-400;
+}
+
+.password-requirements .requirement.unmet {
+  @apply text-gray-500 dark:text-gray-400;
+}
+
+.password-requirements .requirement-icon {
+  @apply flex items-center justify-center w-4 h-4 rounded-full text-xs font-bold;
+}
+
+.password-requirements .requirement.met .requirement-icon {
+  @apply bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400;
+}
+
+.password-requirements .requirement.unmet .requirement-icon {
+  @apply bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500;
 }
 
 .login-button {

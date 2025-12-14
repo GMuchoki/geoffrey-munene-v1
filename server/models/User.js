@@ -12,6 +12,31 @@ const userSchema = new mongoose.Schema(
       sparse: true, // Allows multiple null values but enforces uniqueness for non-null
       index: true, // Index for faster lookups
     },
+    // User profile information
+    firstName: {
+      type: String,
+      trim: true,
+      required: false, // Will be required for new registrations but optional for existing users
+    },
+    middleName: {
+      type: String,
+      trim: true,
+      required: false,
+    },
+    lastName: {
+      type: String,
+      trim: true,
+      required: false, // Will be required for new registrations but optional for existing users
+    },
+    username: {
+      type: String,
+      trim: true,
+      unique: true,
+      sparse: true, // Allows multiple null values but enforces uniqueness for non-null
+      index: true,
+      lowercase: true,
+      required: false, // Will be required for new registrations but optional for existing users
+    },
     // Password for authenticated users
     password: {
       type: String,

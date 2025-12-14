@@ -65,11 +65,11 @@ export const UserProvider = ({ children }) => {
     }
   }
 
-  const register = async (email, password, sessionId = null, signupPurpose = null) => {
+  const register = async (firstName, middleName, lastName, username, email, password, sessionId = null, signupPurpose = null) => {
     try {
       setLoading(true)
       setError(null)
-      const response = await userAPI.register(email, password, sessionId, signupPurpose)
+      const response = await userAPI.register(firstName, middleName, lastName, username, email, password, sessionId, signupPurpose)
       
       // Check if email verification is required
       if (response.requiresVerification) {
