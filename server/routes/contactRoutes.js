@@ -20,6 +20,12 @@ const contactValidation = [
     .withMessage('Email is required')
     .isEmail()
     .withMessage('Please provide a valid email'),
+  body('subject')
+    .trim()
+    .notEmpty()
+    .withMessage('Subject is required')
+    .isLength({ min: 3 })
+    .withMessage('Subject must be at least 3 characters'),
   body('message')
     .trim()
     .notEmpty()
