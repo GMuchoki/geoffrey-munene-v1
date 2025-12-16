@@ -1,7 +1,13 @@
 import SEO from '../components/SEO'
+import { getBreadcrumbSchema } from '../utils/structuredData'
 import '../styles/pages/privacy.css'
 
 function Privacy() {
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: 'Home', url: 'https://geoffreymunene.app/' },
+    { name: 'Privacy Policy', url: 'https://geoffreymunene.app/privacy' },
+  ])
+
   return (
     <>
       <SEO
@@ -9,6 +15,7 @@ function Privacy() {
         description="Learn how Geoffrey Munene collects, uses, and protects your personal information. Our commitment to your privacy and data security."
         keywords="privacy policy, data protection, privacy statement, user privacy, data security"
         url="/privacy"
+        structuredData={[breadcrumbSchema]}
       />
       <div className="privacy-page">
         <section className="privacy-hero">

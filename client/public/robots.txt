@@ -1,4 +1,4 @@
-# robots.txt for geoffreymunene.netlify.app
+# robots.txt for geoffreymunene.app
 
 User-agent: *
 Allow: /
@@ -7,5 +7,5 @@ Allow: /
 Disallow: /admin/
 
 # Sitemap location
-Sitemap: https://geoffreymunene.netlify.app/sitemap.xml
+Sitemap: https://geoffreymunene.app/sitemap.xml
 

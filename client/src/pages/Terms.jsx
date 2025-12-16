@@ -1,7 +1,13 @@
 import SEO from '../components/SEO'
+import { getBreadcrumbSchema } from '../utils/structuredData'
 import '../styles/pages/terms.css'
 
 function Terms() {
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: 'Home', url: 'https://geoffreymunene.app/' },
+    { name: 'Terms & Conditions', url: 'https://geoffreymunene.app/terms' },
+  ])
+
   return (
     <>
       <SEO
@@ -9,6 +15,7 @@ function Terms() {
         description="Read the Terms & Conditions for using Geoffrey Munene's website, including user responsibilities, content usage, and service limitations."
         keywords="terms and conditions, terms of service, user agreement, website terms"
         url="/terms"
+        structuredData={[breadcrumbSchema]}
       />
       <div className="terms-page">
         <section className="terms-hero">
