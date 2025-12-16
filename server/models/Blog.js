@@ -31,7 +31,7 @@ const blogSchema = new mongoose.Schema(
     },
     author: {
       type: String,
-      default: 'Remowork',
+      default: 'Geoffrey Munene',
     },
     published: {
       type: Boolean,

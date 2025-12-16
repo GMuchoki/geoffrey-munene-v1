@@ -1,7 +1,7 @@
 {
-  "name": "remowork-v1",
+  "name": "geoffrey-munene-v1",
   "version": "1.0.0",
-  "description": "Remote work platform built with MERN stack",
+  "description": "Personal portfolio website built with MERN stack",
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",

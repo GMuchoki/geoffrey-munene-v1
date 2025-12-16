@@ -20,7 +20,7 @@ function AdminBlogForm() {
     category: '',
     thumbnail: '',
     videoUrl: '',
-    author: 'Remowork',
+    author: 'Geoffrey Munene',
     published: true,
     featured: false,
   })

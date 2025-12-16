@@ -9,7 +9,7 @@ const sampleTestimonials = [
   {
     name: 'Sarah Johnson',
     role: 'Digital Marketing Manager',
-    text: "Remowork's tips helped me land my first remote job in just 3 months! The YouTube videos are incredibly practical and easy to follow. The resume builder tool on this site was a game-changer for my application.",
+    text: "Geoffrey's tips helped me land my first remote job in just 3 months! His YouTube videos are incredibly practical and easy to follow. The resume builder tool on this site was a game-changer for my application.",
     rating: 5,
     avatar: 'https://i.pravatar.cc/150?img=47',
     published: true,
@@ -18,7 +18,7 @@ const sampleTestimonials = [
   {
     name: 'James K.',
     role: 'Software Developer',
-    text: "The AI tools on this site saved me hours of work. The resume builder is amazing and helped me get multiple interview calls! I've been following Remowork's content for months and it's been invaluable for my career transition.",
+    text: "The AI tools on this site saved me hours of work. The resume builder is amazing and helped me get multiple interview calls! I've been following Geoffrey's content for months and it's been invaluable for my career transition.",
     rating: 5,
     avatar: 'https://i.pravatar.cc/150?img=12',
     published: true,
@@ -27,7 +27,7 @@ const sampleTestimonials = [
   {
     name: 'Alex L.',
     role: 'Freelance Designer',
-    text: "I've been following Remowork's content for a year now. The blog posts and job listings have been game-changers for my career transition. The remote work resources here are top-notch and completely free!",
+    text: "I've been following Geoffrey's content for a year now. His blog posts and job listings have been game-changers for my career transition. The remote work resources here are top-notch and completely free!",
     rating: 5,
     avatar: 'https://i.pravatar.cc/150?img=33',
     published: true,

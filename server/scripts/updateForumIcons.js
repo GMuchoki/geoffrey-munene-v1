@@ -18,7 +18,7 @@ const iconMapping = {
 const updateForumIcons = async () => {
   try {
     // Connect to MongoDB
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/remowork')
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/geoffrey-munene')
     console.log('Connected to MongoDB')
 
     // Update each forum with the new icon

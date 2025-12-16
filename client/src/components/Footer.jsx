@@ -16,8 +16,8 @@ function Footer() {
         <div className="footer-content">
           <div className="footer-brand">
             <h3 className="footer-brand-name">
-              <span className="logo-first">Remo</span>
-              <span className="logo-second">work</span>
+              <span className="logo-first">Geoffrey</span>
+              <span className="logo-second">Munene</span>
             </h3>
             <p className="footer-brand-description">
               Helping people land remote jobs, work online, and grow digital careers.
@@ -73,7 +73,7 @@ function Footer() {
             <Link to="/privacy" className="footer-legal-link">Privacy Policy</Link>
           </div>
           <p className="footer-copyright">
-            © {new Date().getFullYear()} Remowork. All rights reserved.
+            © {new Date().getFullYear()} Geoffrey Munene. All rights reserved.
           </p>
         </div>
       </div>
