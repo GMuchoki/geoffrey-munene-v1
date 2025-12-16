@@ -43,7 +43,9 @@ const allowedOrigins = process.env.NODE_ENV === 'production'
   ? [
       process.env.FRONTEND_URL,
       'https://www.remowork.life',
-      'https://remowork.life'
+      'https://remowork.life',
+      'https://www.geoffreymunene.app',
+      'https://geoffreymunene.app'
     ].filter(Boolean) // Remove any undefined values
   : ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:5174']
 
