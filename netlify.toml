@@ -6,6 +6,7 @@
 [build.environment]
   NODE_VERSION = "18"
   VITE_API_URL = "https://geoffrey-munene-v1-production.up.railway.app/api"
+  VITE_GA_MEASUREMENT_ID = "G-5MJZQXB3Z3"
 
 # SPA redirect - all routes should serve index.html
 [[redirects]]
