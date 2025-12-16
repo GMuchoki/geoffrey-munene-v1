@@ -200,6 +200,35 @@ export const getCollectionPageSchema = (url, name, description) => {
 }
 
 /**
+ * Generate ContactPage structured data
+ */
+export const getContactPageSchema = () => {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    name: 'Contact Geoffrey Munene',
+    description: 'Get in touch with Geoffrey Munene for remote work coaching, career advice, or collaboration opportunities.',
+    url: `${siteUrl}/contact`,
+    mainEntity: {
+      '@type': 'Person',
+      name: 'Geoffrey Munene',
+      email: 'munenemuchokiofficial@gmail.com',
+      telephone: '+254700127598',
+      jobTitle: 'Remote Work Coach & Content Creator',
+      sameAs: [
+        'https://x.com/munene_muchoki',
+        'https://www.linkedin.com/in/munenemuchoki',
+        'https://youtube.com/@munenegeoffrey',
+      ],
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: siteName,
+    },
+  }
+}
+
+/**
  * Generate JobPosting structured data
  */
 export const getJobPostingSchema = (job) => {

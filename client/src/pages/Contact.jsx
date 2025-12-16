@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { contactAPI } from '../services/api'
 import SEO from '../components/SEO'
-import { getBreadcrumbSchema } from '../utils/structuredData'
+import { getBreadcrumbSchema, getContactPageSchema } from '../utils/structuredData'
 import { trackEvent } from '../components/GoogleAnalytics'
 import toast from 'react-hot-toast'
 import { 
@@ -66,6 +66,8 @@ function Contact() {
     { name: 'Home', url: 'https://geoffreymunene.app/' },
     { name: 'Contact', url: 'https://geoffreymunene.app/contact' },
   ])
+  const contactPageSchema = getContactPageSchema()
+  const structuredData = [breadcrumbSchema, contactPageSchema].filter(Boolean)
 
   return (
     <>
@@ -74,7 +76,7 @@ function Contact() {
         description="Get in touch with Geoffrey Munene. Have questions about remote work, need career advice, or want to collaborate? Reach out through the contact form."
         keywords="contact Geoffrey Munene, remote work consultation, career coaching contact"
         url="/contact"
-        structuredData={[breadcrumbSchema]}
+        structuredData={structuredData}
       />
       <div className="contact-page">
       {/* Blue Banner Section */}

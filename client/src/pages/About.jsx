@@ -34,7 +34,7 @@ function About() {
             <h2 className="content-title">My Mission</h2>
             <p className="content-paragraph">
               I'm Geoffrey Munene, a content creator and remote work coach dedicated to helping people 
-              navigate the world of remote work. Our mission is to empower individuals to land remote jobs, 
+              navigate the world of remote work. My mission is to empower individuals to land remote jobs, 
               work online, and build successful digital careers.
             </p>
             <p className="content-paragraph">
