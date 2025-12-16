@@ -55,15 +55,27 @@ export const initGA = () => {
     isGAInitialized = true
     isScriptLoading = false
     
-    // Configure GA after script loads
+    // Configure GA after script loads with enhanced settings
     gtag('config', GA_MEASUREMENT_ID, {
       page_path: window.location.pathname,
       page_title: document.title,
+      page_location: window.location.href,
       send_page_view: true,
+      // Enhanced measurement settings
+      allow_google_signals: true,
+      allow_ad_personalization_signals: true,
+    })
+
+    // Force send an initial page view to verify data collection
+    gtag('event', 'page_view', {
+      page_path: window.location.pathname,
+      page_title: document.title,
+      page_location: window.location.href,
     })
 
     // Log initialization in both dev and production
     console.log('✅ Google Analytics initialized:', GA_MEASUREMENT_ID)
+    console.log('📤 Initial page view sent to GA')
   }
 
   script.onerror = () => {
@@ -90,7 +102,16 @@ export const trackPageView = (path, title) => {
     window.gtag('config', GA_MEASUREMENT_ID, {
       page_path: path,
       page_title: title || document.title,
+      page_location: window.location.href,
     })
+    
+    // Also send as an event to ensure it's captured
+    window.gtag('event', 'page_view', {
+      page_path: path,
+      page_title: title || document.title,
+      page_location: window.location.href,
+    })
+    
     return true
   } catch (error) {
     console.error('Error tracking page view:', error)
