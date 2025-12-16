@@ -26,27 +26,84 @@ export const initGA = () => {
     return false
   }
 
-  // Prevent duplicate initialization
-  if (isGAInitialized || window.gtag) {
+  // Check if script is already loaded from index.html
+  const existingScript = document.querySelector('script[src*="googletagmanager.com/gtag/js"]')
+  const scriptAlreadyInHTML = existingScript !== null
+
+  // Ensure dataLayer and gtag are initialized (may already be from index.html)
+  window.dataLayer = window.dataLayer || []
+  if (!window.gtag) {
+    function gtag(...args) {
+      window.dataLayer.push(args)
+    }
+    window.gtag = gtag
+    gtag('js', new Date())
+  }
+
+  // If script is already loaded from HTML, just configure it
+  if (scriptAlreadyInHTML) {
+    // Wait for the script to fully load, then configure
+    const configureGA = () => {
+      // Check if gtag is available and the script has loaded
+      if (typeof window.gtag === 'function') {
+        // Script is loaded, configure GA
+        gtag('config', GA_MEASUREMENT_ID, {
+          page_path: window.location.pathname,
+          page_title: document.title,
+          page_location: window.location.href,
+          send_page_view: true,
+          allow_google_signals: true,
+          allow_ad_personalization_signals: true,
+        })
+
+        gtag('event', 'page_view', {
+          page_path: window.location.pathname,
+          page_title: document.title,
+          page_location: window.location.href,
+        })
+
+        isGAInitialized = true
+        console.log('✅ Google Analytics initialized (from HTML):', GA_MEASUREMENT_ID)
+        console.log('📤 Initial page view sent to GA')
+        return true
+      }
+      return false
+    }
+
+    // Try immediately
+    if (configureGA()) {
+      return true
+    }
+
+    // Script might still be loading, wait for it
+    const checkInterval = setInterval(() => {
+      if (configureGA() || isGAInitialized) {
+        clearInterval(checkInterval)
+      }
+    }, 50)
+
+    // Stop checking after 5 seconds (script should load by then)
+    setTimeout(() => {
+      clearInterval(checkInterval)
+      if (!isGAInitialized) {
+        console.warn('⚠️ Google Analytics script from HTML took too long to load')
+      }
+    }, 5000)
+
     return true
   }
 
-  // Prevent duplicate script loading
+  // Fallback: Load script dynamically if not in HTML (for development/testing)
+  if (isGAInitialized) {
+    return true
+  }
+
   if (isScriptLoading) {
     return false
   }
 
   isScriptLoading = true
 
-  // Initialize dataLayer
-  window.dataLayer = window.dataLayer || []
-  function gtag(...args) {
-    window.dataLayer.push(args)
-  }
-  window.gtag = gtag
-  gtag('js', new Date())
-
-  // Load gtag script
   const script = document.createElement('script')
   script.async = true
   script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`
@@ -55,26 +112,22 @@ export const initGA = () => {
     isGAInitialized = true
     isScriptLoading = false
     
-    // Configure GA after script loads with enhanced settings
     gtag('config', GA_MEASUREMENT_ID, {
       page_path: window.location.pathname,
       page_title: document.title,
       page_location: window.location.href,
       send_page_view: true,
-      // Enhanced measurement settings
       allow_google_signals: true,
       allow_ad_personalization_signals: true,
     })
 
-    // Force send an initial page view to verify data collection
     gtag('event', 'page_view', {
       page_path: window.location.pathname,
       page_title: document.title,
       page_location: window.location.href,
     })
 
-    // Log initialization in both dev and production
-    console.log('✅ Google Analytics initialized:', GA_MEASUREMENT_ID)
+    console.log('✅ Google Analytics initialized (dynamic):', GA_MEASUREMENT_ID)
     console.log('📤 Initial page view sent to GA')
   }
 
