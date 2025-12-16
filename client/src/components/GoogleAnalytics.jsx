@@ -10,10 +10,19 @@ let isScriptLoading = false
 
 // Initialize Google Analytics
 export const initGA = () => {
+  // Log the env var value for debugging (helps identify if it's undefined in production)
+  if (typeof window !== 'undefined') {
+    console.log('🔍 GA Debug - VITE_GA_MEASUREMENT_ID:', GA_MEASUREMENT_ID || 'NOT SET')
+    console.log('🔍 GA Debug - import.meta.env:', {
+      MODE: import.meta.env.MODE,
+      DEV: import.meta.env.DEV,
+      PROD: import.meta.env.PROD,
+    })
+  }
+  
   if (!GA_MEASUREMENT_ID || typeof window === 'undefined') {
-    if (import.meta.env.DEV) {
-      console.warn('⚠️ Google Analytics: VITE_GA_MEASUREMENT_ID is not set')
-    }
+    console.warn('⚠️ Google Analytics: VITE_GA_MEASUREMENT_ID is not set')
+    console.warn('⚠️ This usually means the env var is missing in Netlify build environment')
     return false
   }
 
@@ -53,9 +62,8 @@ export const initGA = () => {
       send_page_view: true,
     })
 
-    if (import.meta.env.DEV) {
-      console.log('✅ Google Analytics initialized:', GA_MEASUREMENT_ID)
-    }
+    // Log initialization in both dev and production
+    console.log('✅ Google Analytics initialized:', GA_MEASUREMENT_ID)
   }
 
   script.onerror = () => {
@@ -135,13 +143,13 @@ export const verifyGA = () => {
 
   const allPassed = Object.values(checks).every(Boolean)
   
-  if (import.meta.env.DEV) {
-    console.log('📊 Google Analytics Status:', {
-      ...checks,
-      status: allPassed ? '✅ Working' : '⚠️ Issues detected',
-      measurementId: GA_MEASUREMENT_ID ? `${GA_MEASUREMENT_ID.substring(0, 10)}...` : 'Not set',
-    })
-  }
+  // Log status in both dev and production for debugging
+  console.log('📊 Google Analytics Status:', {
+    ...checks,
+    status: allPassed ? '✅ Working' : '⚠️ Issues detected',
+    measurementId: GA_MEASUREMENT_ID ? `${GA_MEASUREMENT_ID.substring(0, 10)}...` : 'Not set',
+    environment: import.meta.env.MODE,
+  })
 
   return { checks, allPassed }
 }
@@ -156,17 +164,18 @@ export const GoogleAnalytics = () => {
       initGA()
       initializedRef.current = true
       
-      // Verify after initialization (only in development)
-      if (import.meta.env.DEV) {
-        setTimeout(() => {
-          verifyGA()
+      // Verify after initialization (both dev and production)
+      setTimeout(() => {
+        verifyGA()
+        if (import.meta.env.DEV) {
           logDiagnostics()
-        }, 1000)
-      }
-    } else if (!GA_MEASUREMENT_ID && import.meta.env.DEV) {
+        }
+      }, 1000)
+    } else if (!GA_MEASUREMENT_ID) {
+      // Log warning in both dev and production to help debug
       console.warn(
         '⚠️ Google Analytics: VITE_GA_MEASUREMENT_ID is not set.\n' +
-        'Add it to your client/.env file to enable analytics tracking.'
+        'Add it to your client/.env file (dev) or Netlify environment variables (production).'
       )
     }
   }, [])
