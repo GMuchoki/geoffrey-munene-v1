@@ -155,9 +155,9 @@ function JobDetail() {
 
   const jobPostingSchema = getJobPostingSchema(job)
   const breadcrumbSchema = getBreadcrumbSchema([
-    { name: 'Home', url: 'https://remowork.life/' },
-    { name: 'Remote Jobs', url: 'https://remowork.life/remote-jobs' },
-    { name: `${job.title} at ${job.company}`, url: `https://remowork.life/remote-jobs/${id}` },
+    { name: 'Home', url: 'https://geoffreymunene.app/' },
+    { name: 'Remote Jobs', url: 'https://geoffreymunene.app/remote-jobs' },
+    { name: `${job.title} at ${job.company}`, url: `https://geoffreymunene.app/remote-jobs/${id}` },
   ])
   
   const structuredData = [jobPostingSchema, breadcrumbSchema].filter(Boolean)

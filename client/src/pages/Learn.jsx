@@ -133,8 +133,8 @@ function Learn() {
     learnDescription
   )
   const breadcrumbSchema = getBreadcrumbSchema([
-    { name: 'Home', url: 'https://remowork.life/' },
-    { name: 'Learn', url: `https://remowork.life${learnUrl}` },
+    { name: 'Home', url: 'https://geoffreymunene.app/' },
+    { name: 'Learn', url: `https://geoffreymunene.app${learnUrl}` },
   ])
   
   const structuredData = [collectionSchema, breadcrumbSchema]

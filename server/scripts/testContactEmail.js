@@ -5,7 +5,7 @@ import { sendSupportEmail } from '../utils/emailService.js'
 dotenv.config({ path: './.env' })
 
 async function testContactEmail() {
-  console.log('🧪 Testing Contact Form Email to support@remowork.life\n')
+  console.log('🧪 Testing Contact Form Email to support@geoffreymunene.app\n')
 
   // Check required environment variables
   if (!process.env.RESEND_API_KEY) {
@@ -13,7 +13,7 @@ async function testContactEmail() {
     process.exit(1)
   }
 
-  const supportEmail = process.env.RESEND_SUPPORT_EMAIL || 'support@remowork.life'
+  const supportEmail = process.env.RESEND_SUPPORT_EMAIL || 'support@geoffreymunene.app'
   console.log(`📧 Sending test contact form email to: ${supportEmail}\n`)
 
   // Simulate a contact form submission
@@ -38,7 +38,7 @@ async function testContactEmail() {
         <p style="white-space: pre-wrap; color: #4a5568;">${testContact.message}</p>
       </div>
       <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0; color: #718096; font-size: 12px;">
-        <p>This message was sent from the contact form on ${process.env.FRONTEND_URL || 'https://remowork.life'}</p>
+        <p>This message was sent from the contact form on ${process.env.FRONTEND_URL || 'https://geoffreymunene.app'}</p>
         <p>You can reply directly to this email to respond to ${testContact.name}.</p>
       </div>
     </div>
@@ -54,7 +54,7 @@ Message:
 ${testContact.message}
 
 ---
-This message was sent from the contact form on ${process.env.FRONTEND_URL || 'https://remowork.life'}
+This message was sent from the contact form on ${process.env.FRONTEND_URL || 'https://geoffreymunene.app'}
 You can reply directly to this email to respond to ${testContact.name}.
   `
 
@@ -74,7 +74,7 @@ You can reply directly to this email to respond to ${testContact.name}.
       console.log(`   To: ${supportEmail}`)
       console.log(`   Reply-To: ${testContact.email}`)
       console.log(`   Subject: ${emailSubject}`)
-      console.log('\n📬 Check your inbox at support@remowork.life')
+      console.log('\n📬 Check your inbox at support@geoffreymunene.app')
       console.log('   You should be able to reply directly to the sender.')
     } else {
       console.error('❌ Failed to send contact form email')

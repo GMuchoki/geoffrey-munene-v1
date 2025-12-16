@@ -217,8 +217,8 @@ function RemoteJobs() {
     'Find your dream remote job. Browse curated remote work opportunities across various industries. Search and filter by category, location, and job type.'
   )
   const breadcrumbSchema = getBreadcrumbSchema([
-    { name: 'Home', url: 'https://remowork.life/' },
-    { name: 'Remote Jobs', url: 'https://remowork.life/remote-jobs' },
+    { name: 'Home', url: 'https://geoffreymunene.app/' },
+    { name: 'Remote Jobs', url: 'https://geoffreymunene.app/remote-jobs' },
   ])
   
   const structuredData = [collectionSchema, breadcrumbSchema]

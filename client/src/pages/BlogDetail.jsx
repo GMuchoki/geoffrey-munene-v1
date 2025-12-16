@@ -56,9 +56,9 @@ function BlogDetail() {
   // Generate structured data for article
   const articleSchema = getArticleSchema(blog)
   const breadcrumbSchema = getBreadcrumbSchema([
-    { name: 'Home', url: 'https://remowork.life/' },
-    { name: 'Blog', url: 'https://remowork.life/blog' },
-    { name: blog.title, url: `https://remowork.life/blog/${id}` },
+    { name: 'Home', url: 'https://geoffreymunene.app/' },
+    { name: 'Blog', url: 'https://geoffreymunene.app/blog' },
+    { name: blog.title, url: `https://geoffreymunene.app/blog/${id}` },
   ])
   
   const structuredData = [articleSchema, breadcrumbSchema].filter(Boolean)

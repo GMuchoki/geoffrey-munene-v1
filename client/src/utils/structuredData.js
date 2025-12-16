@@ -3,8 +3,8 @@
  * Generates schema.org structured data for better search engine understanding
  */
 
-const siteUrl = 'https://remowork.life'
-const siteName = 'Remowork'
+const siteUrl = 'https://geoffreymunene.app'
+const siteName = 'Geoffrey Munene'
 const siteDescription = 'Learn how to land your dream remote job. Get free tools, resources, and guidance to build a successful remote career.'
 
 /**

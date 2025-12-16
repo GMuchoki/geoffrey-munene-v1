@@ -14,7 +14,7 @@ console.log('')
 
 // Test email addresses
 const testRecipient = process.argv[2] || 'test@example.com'
-const supportEmail = process.env.RESEND_SUPPORT_EMAIL || 'support@remowork.life'
+const supportEmail = process.env.RESEND_SUPPORT_EMAIL || 'support@geoffreymunene.app'
 
 console.log('='.repeat(60))
 console.log('Test 1: Sending Support Email (with reply-to)')
@@ -75,7 +75,7 @@ console.log('='.repeat(60))
 console.log('Test 2: Sending System Email (no reply-to)')
 console.log('='.repeat(60))
 console.log(`📧 To: ${testRecipient}`)
-console.log(`📧 From: ${process.env.RESEND_FROM_EMAIL || 'noreply@remowork.life'}`)
+console.log(`📧 From: ${process.env.RESEND_FROM_EMAIL || 'noreply@geoffreymunene.app'}`)
 console.log(`📧 Reply-To: None (system notification)`)
 console.log('')
 
@@ -125,7 +125,7 @@ try {
     `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
       <h2>Re: Your Support Request</h2>
-      <p>Thank you for contacting Remowork support!</p>
+      <p>Thank you for contacting Geoffrey Munene support!</p>
       <p>This is a test response email. When you reply to this email, your reply should be received at:</p>
       <p style="background: #f0f0f0; padding: 10px; border-left: 4px solid #4CAF50;">
         <strong>${supportEmail}</strong>
@@ -144,7 +144,7 @@ try {
     `,
     `Re: Your Support Request
 
-Thank you for contacting Remowork support!
+Thank you for contacting Geoffrey Munene support!
 
 This is a test response email. When you reply to this email, your reply should be received at: ${supportEmail}
 
@@ -168,7 +168,7 @@ This is an automated test email. Please do not reply unless testing email receiv
     console.log('      - Look for "Inbound" section')
     console.log('      - Or check webhook logs if configured')
     console.log('')
-    console.log('💡 Tip: You can also send a test email TO support@remowork.life')
+    console.log('💡 Tip: You can also send a test email TO support@geoffreymunene.app')
     console.log('   from any email client to test receiving directly.')
   } else {
     console.error('❌ Failed to send reply test email:')

@@ -63,16 +63,16 @@ function Contact() {
   }
 
   const breadcrumbSchema = getBreadcrumbSchema([
-    { name: 'Home', url: 'https://remowork.life/' },
-    { name: 'Contact', url: 'https://remowork.life/contact' },
+    { name: 'Home', url: 'https://geoffreymunene.app/' },
+    { name: 'Contact', url: 'https://geoffreymunene.app/contact' },
   ])
 
   return (
     <>
       <SEO
-        title="Contact Remowork"
-        description="Get in touch with Remowork. Have questions about remote work, need career advice, or want to collaborate? Reach out through the contact form."
-        keywords="contact Remowork, remote work consultation, career coaching contact"
+        title="Contact Geoffrey Munene"
+        description="Get in touch with Geoffrey Munene. Have questions about remote work, need career advice, or want to collaborate? Reach out through the contact form."
+        keywords="contact Geoffrey Munene, remote work consultation, career coaching contact"
         url="/contact"
         structuredData={[breadcrumbSchema]}
       />

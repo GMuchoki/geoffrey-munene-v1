@@ -4,7 +4,7 @@ const SEO = ({
   title,
   description,
   keywords,
-  image = 'https://remowork.life/og-image.jpg',
+  image = 'https://geoffreymunene.app/og-image.jpg',
   url,
   type = 'website',
   publishedTime,
@@ -12,12 +12,12 @@ const SEO = ({
   author,
   structuredData,
 }) => {
-  const siteUrl = 'https://remowork.life'
+  const siteUrl = 'https://geoffreymunene.app'
   const fullUrl = url ? `${siteUrl}${url}` : siteUrl
   const fullImage = image.startsWith('http') ? image : `${siteUrl}${image}`
   const fullTitle = title
-    ? `${title} | Remowork`
-    : 'Remowork - Remote Work Coach & Content Creator'
+    ? `${title} | Geoffrey Munene`
+    : 'Geoffrey Munene - Remote Work Coach & Content Creator'
   const fullDescription =
     description ||
     'Learn how to land your dream remote job. Get free tools, resources, and guidance to build a successful remote career. AI-powered resume builder, job listings, and video tutorials.'
@@ -29,7 +29,7 @@ const SEO = ({
       <meta name="title" content={fullTitle} />
       <meta name="description" content={fullDescription} />
       {keywords && <meta name="keywords" content={keywords} />}
-      <meta name="author" content={author || 'Remowork'} />
+      <meta name="author" content={author || 'Geoffrey Munene'} />
       <meta name="robots" content="index, follow" />
       <meta name="language" content="English" />
       <meta name="revisit-after" content="7 days" />
@@ -44,7 +44,7 @@ const SEO = ({
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image:alt" content={fullTitle} />
-      <meta property="og:site_name" content="Remowork" />
+      <meta property="og:site_name" content="Geoffrey Munene" />
       <meta property="og:locale" content="en_US" />
       {publishedTime && <meta property="article:published_time" content={publishedTime} />}
       {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}

@@ -6,7 +6,7 @@
   
   <!-- Homepage -->
   <url>
-    <loc>https://remowork.life/</loc>
+    <loc>https://geoffreymunene.app/</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -14,7 +14,7 @@
   
   <!-- Blog -->
   <url>
-    <loc>https://remowork.life/blog</loc>
+    <loc>https://geoffreymunene.app/blog</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
@@ -22,7 +22,7 @@
   
   <!-- Tools -->
   <url>
-    <loc>https://remowork.life/tools</loc>
+    <loc>https://geoffreymunene.app/tools</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -30,7 +30,7 @@
   
   <!-- Learn -->
   <url>
-    <loc>https://remowork.life/learn</loc>
+    <loc>https://geoffreymunene.app/learn</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -38,7 +38,7 @@
   
   <!-- Remote Jobs -->
   <url>
-    <loc>https://remowork.life/remote-jobs</loc>
+    <loc>https://geoffreymunene.app/remote-jobs</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
@@ -46,7 +46,7 @@
   
   <!-- Community -->
   <url>
-    <loc>https://remowork.life/community</loc>
+    <loc>https://geoffreymunene.app/community</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
@@ -54,7 +54,7 @@
   
   <!-- Services -->
   <url>
-    <loc>https://remowork.life/services</loc>
+    <loc>https://geoffreymunene.app/services</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -62,7 +62,7 @@
   
   <!-- About -->
   <url>
-    <loc>https://remowork.life/about</loc>
+    <loc>https://geoffreymunene.app/about</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -70,7 +70,7 @@
   
   <!-- Contact -->
   <url>
-    <loc>https://remowork.life/contact</loc>
+    <loc>https://geoffreymunene.app/contact</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -78,7 +78,7 @@
   
   <!-- Terms & Conditions -->
   <url>
-    <loc>https://remowork.life/terms</loc>
+    <loc>https://geoffreymunene.app/terms</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
@@ -86,7 +86,7 @@
   
   <!-- Privacy Policy -->
   <url>
-    <loc>https://remowork.life/privacy</loc>
+    <loc>https://geoffreymunene.app/privacy</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

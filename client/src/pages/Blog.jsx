@@ -116,8 +116,8 @@ function Blog() {
     'Expert tips, guides, and insights on remote work, job searching, productivity, and building a successful remote career.'
   )
   const breadcrumbSchema = getBreadcrumbSchema([
-    { name: 'Home', url: 'https://remowork.life/' },
-    { name: 'Blog', url: 'https://remowork.life/blog' },
+    { name: 'Home', url: 'https://geoffreymunene.app/' },
+    { name: 'Blog', url: 'https://geoffreymunene.app/blog' },
   ])
   
   const structuredData = [collectionSchema, breadcrumbSchema]

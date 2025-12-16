@@ -124,13 +124,13 @@ const generateWelcomeEmailHTML = (userEmail, signupPurpose) => {
     
     <p style="color: #666; font-size: 14px;">
       Best regards,<br>
-      <strong>The Remowork Team</strong>
+      <strong>The Geoffrey Munene Team</strong>
     </p>
   </div>
   
   <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #9ca3af; font-size: 12px;">
     <p>This email was sent to ${userEmail}</p>
-    <p>© ${new Date().getFullYear()} Remowork. All rights reserved.</p>
+    <p>© ${new Date().getFullYear()} Geoffrey Munene. All rights reserved.</p>
   </div>
 </body>
 </html>
@@ -165,11 +165,11 @@ Quick Links:
 If you have any questions, feel free to reach out to us. We're here to help!
 
 Best regards,
-The Remowork Team
+The Geoffrey Munene Team
 
 ---
 This email was sent to ${userEmail}
-© ${new Date().getFullYear()} Remowork. All rights reserved.
+© ${new Date().getFullYear()} Geoffrey Munene. All rights reserved.
   `
 }
 
@@ -189,7 +189,7 @@ export const sendWelcomeEmail = async (userEmail, signupPurpose) => {
       if (!process.env.RESEND_FROM_EMAIL && process.env.EMAIL_FROM && !process.env.EMAIL_FROM.includes('@gmail.com')) {
         fromEmail = process.env.EMAIL_FROM
       }
-      const fromName = process.env.EMAIL_FROM_NAME || 'Remowork'
+      const fromName = process.env.EMAIL_FROM_NAME || 'Geoffrey Munene'
       
       console.log(`📧 Resend: Sending welcome email from ${fromName} <${fromEmail}> to ${userEmail}`)
       
@@ -222,7 +222,7 @@ export const sendWelcomeEmail = async (userEmail, signupPurpose) => {
     }
 
     const mailOptions = {
-      from: process.env.EMAIL_FROM || process.env.SMTP_USER || process.env.GMAIL_USER || 'noreply@remowork.life',
+      from: process.env.EMAIL_FROM || process.env.SMTP_USER || process.env.GMAIL_USER || 'noreply@geoffreymunene.app',
       to: userEmail,
       subject: '🎉 Welcome to Your Remote Career Journey!',
       text: generateWelcomeEmailText(userEmail, signupPurpose),
@@ -290,13 +290,13 @@ const generateVerificationEmailHTML = (userEmail, verificationCode) => {
     
     <p style="color: #666; font-size: 14px;">
       Best regards,<br>
-      <strong>The Remowork Team</strong>
+      <strong>The Geoffrey Munene Team</strong>
     </p>
   </div>
   
   <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #9ca3af; font-size: 12px;">
     <p>This email was sent to ${userEmail}</p>
-    <p>© ${new Date().getFullYear()} Remowork. All rights reserved.</p>
+    <p>© ${new Date().getFullYear()} Geoffrey Munene. All rights reserved.</p>
   </div>
 </body>
 </html>
@@ -323,11 +323,11 @@ Security Tip: Never share this code with anyone. We will never ask for your veri
 If you have any questions, feel free to reach out to us.
 
 Best regards,
-The Remowork Team
+The Geoffrey Munene Team
 
 ---
 This email was sent to ${userEmail}
-© ${new Date().getFullYear()} Remowork. All rights reserved.
+© ${new Date().getFullYear()} Geoffrey Munene. All rights reserved.
   `
 }
 
@@ -348,7 +348,7 @@ export const sendVerificationCode = async (userEmail, verificationCode) => {
       if (!process.env.RESEND_FROM_EMAIL && process.env.EMAIL_FROM && !process.env.EMAIL_FROM.includes('@gmail.com')) {
         fromEmail = process.env.EMAIL_FROM
       }
-      const fromName = process.env.EMAIL_FROM_NAME || 'Remowork'
+      const fromName = process.env.EMAIL_FROM_NAME || 'Geoffrey Munene'
       
       console.log(`📧 Resend: Sending from ${fromName} <${fromEmail}> to ${userEmail}`)
       
@@ -393,7 +393,7 @@ export const sendVerificationCode = async (userEmail, verificationCode) => {
     }
 
     const mailOptions = {
-      from: process.env.EMAIL_FROM || process.env.SMTP_USER || process.env.GMAIL_USER || 'noreply@remowork.life',
+      from: process.env.EMAIL_FROM || process.env.SMTP_USER || process.env.GMAIL_USER || 'noreply@geoffreymunene.app',
       to: userEmail,
       subject: '✉️ Verify Your Email Address',
       text: generateVerificationEmailText(userEmail, verificationCode),
@@ -431,13 +431,13 @@ const getResendConfig = (emailType = 'system') => {
 
   if (emailType === 'support') {
     // Support emails - users can reply
-    fromEmail = process.env.RESEND_SUPPORT_EMAIL || 'support@remowork.life'
-    fromName = process.env.EMAIL_FROM_NAME || 'Remowork Support'
+    fromEmail = process.env.RESEND_SUPPORT_EMAIL || 'support@geoffreymunene.app'
+    fromName = process.env.EMAIL_FROM_NAME || 'Geoffrey Munene Support'
     replyTo = fromEmail // Allow replies
   } else {
     // System notifications - no reply
-    fromEmail = process.env.RESEND_FROM_EMAIL || 'noreply@remowork.life'
-    fromName = process.env.EMAIL_FROM_NAME || 'Remowork'
+    fromEmail = process.env.RESEND_FROM_EMAIL || 'noreply@geoffreymunene.app'
+    fromName = process.env.EMAIL_FROM_NAME || 'Geoffrey Munene'
     // No reply-to for system emails
   }
 
@@ -502,7 +502,7 @@ export const sendEmail = async (to, subject, html, text, options = {}) => {
     }
 
     const mailOptions = {
-      from: process.env.EMAIL_FROM || process.env.SMTP_USER || process.env.GMAIL_USER || 'noreply@remowork.life',
+      from: process.env.EMAIL_FROM || process.env.SMTP_USER || process.env.GMAIL_USER || 'noreply@geoffreymunene.app',
       to,
       subject,
       text: text || subject,
@@ -527,7 +527,7 @@ export const sendEmail = async (to, subject, html, text, options = {}) => {
 export const sendSupportEmail = async (to, subject, html, text, replyTo = null) => {
   return sendEmail(to, subject, html, text, {
     emailType: 'support',
-    replyTo: replyTo || 'support@remowork.life',
+    replyTo: replyTo || 'support@geoffreymunene.app',
   })
 }
 

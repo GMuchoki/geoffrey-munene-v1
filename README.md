@@ -1,4 +1,4 @@
-# Remowork - Remote Work Platform
+# Geoffrey Munene - Personal Website
 
 A modern, full-featured personal website and remote work platform built with the MERN stack (MongoDB, Express.js, React, Node.js). Features include a blog system, AI-powered career tools, remote job listings, YouTube integration, and a comprehensive admin dashboard for content management.
 
@@ -447,7 +447,7 @@ ISC
 
 ## 👤 Author
 
-**Remowork** - Remote Work Platform
+**Geoffrey Munene** - Remote Work Coach & Content Creator
 
 Helping people land remote jobs, build digital careers, and achieve work-life balance through practical guidance, tools, and resources.
 

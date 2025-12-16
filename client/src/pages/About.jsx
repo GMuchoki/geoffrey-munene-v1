@@ -5,8 +5,8 @@ import '../styles/pages/about.css'
 function About() {
   const personSchema = getPersonSchema()
   const breadcrumbSchema = getBreadcrumbSchema([
-    { name: 'Home', url: 'https://remowork.life/' },
-    { name: 'About', url: 'https://remowork.life/about' },
+    { name: 'Home', url: 'https://geoffreymunene.app/' },
+    { name: 'About', url: 'https://geoffreymunene.app/about' },
   ])
   
   const structuredData = [personSchema, breadcrumbSchema]
@@ -14,9 +14,9 @@ function About() {
   return (
     <>
       <SEO
-        title="About Remowork"
-        description="Learn about Remowork, a platform dedicated to helping people navigate the world of remote work and build successful digital careers."
-        keywords="about Remowork, remote work coach, content creator, digital nomad coach, remote work expert"
+        title="About Geoffrey Munene"
+        description="Learn about Geoffrey Munene, a content creator and remote work coach dedicated to helping people navigate the world of remote work and build successful digital careers."
+        keywords="about Geoffrey Munene, remote work coach, content creator, digital nomad coach, remote work expert"
         url="/about"
         structuredData={structuredData}
       />
@@ -33,7 +33,7 @@ function About() {
           <div className="about-text">
             <h2 className="content-title">My Mission</h2>
             <p className="content-paragraph">
-              Remowork is a platform dedicated to helping people 
+              I'm Geoffrey Munene, a content creator and remote work coach dedicated to helping people 
               navigate the world of remote work. Our mission is to empower individuals to land remote jobs, 
               work online, and build successful digital careers.
             </p>

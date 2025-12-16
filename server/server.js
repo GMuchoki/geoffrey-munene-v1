@@ -42,8 +42,8 @@ app.set('trust proxy', 1)
 const allowedOrigins = process.env.NODE_ENV === 'production'
   ? [
       process.env.FRONTEND_URL,
-      'https://www.remowork.life',
-      'https://remowork.life',
+      'https://www.geoffreymunene.app',
+      'https://geoffreymunene.app',
       'https://www.geoffreymunene.app',
       'https://geoffreymunene.app'
     ].filter(Boolean) // Remove any undefined values

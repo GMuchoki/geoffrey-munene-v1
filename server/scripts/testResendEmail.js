@@ -26,7 +26,7 @@ if (process.env.RESEND_API_KEY) {
   try {
     const resend = new Resend(process.env.RESEND_API_KEY)
     const fromEmail = process.env.EMAIL_FROM || process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev'
-    const fromName = process.env.EMAIL_FROM_NAME || 'Remowork'
+    const fromName = process.env.EMAIL_FROM_NAME || 'Geoffrey Munene'
     
     console.log(`  From: ${fromName} <${fromEmail}>`)
     console.log(`  To: ${testEmail}`)

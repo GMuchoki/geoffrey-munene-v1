@@ -26,8 +26,8 @@ export const diagnoseGoogleOAuth = () => {
     'http://localhost:5173',
     'http://127.0.0.1:5173',
     'http://localhost:3000',
-    'https://remowork.life',
-    'https://www.remowork.life',
+    'https://geoffreymunene.app',
+    'https://www.geoffreymunene.app',
   ]
   
   const originMatches = allowedPatterns.some(pattern => 

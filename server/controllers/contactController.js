@@ -28,7 +28,7 @@ export const createContact = async (req, res) => {
       message,
     })
 
-    // Send email to support@remowork.life asynchronously (don't block response)
+    // Send email to support@geoffreymunene.app asynchronously (don't block response)
     const emailSubject = `Contact Form: ${subject}`
     const emailHtml = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -43,7 +43,7 @@ export const createContact = async (req, res) => {
           <p style="white-space: pre-wrap; color: #4a5568;">${message}</p>
         </div>
         <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0; color: #718096; font-size: 12px;">
-          <p>This message was sent from the contact form on ${process.env.FRONTEND_URL || 'https://remowork.life'}</p>
+          <p>This message was sent from the contact form on ${process.env.FRONTEND_URL || 'https://geoffreymunene.app'}</p>
           <p>You can reply directly to this email to respond to ${name}.</p>
         </div>
       </div>
@@ -59,13 +59,13 @@ Message:
 ${message}
 
 ---
-This message was sent from the contact form on ${process.env.FRONTEND_URL || 'https://remowork.life'}
+This message was sent from the contact form on ${process.env.FRONTEND_URL || 'https://geoffreymunene.app'}
 You can reply directly to this email to respond to ${name}.
     `
 
     // Send email asynchronously (don't block the response)
     sendSupportEmail(
-      'support@remowork.life',
+      'support@geoffreymunene.app',
       emailSubject,
       emailHtml,
       emailText,
@@ -73,7 +73,7 @@ You can reply directly to this email to respond to ${name}.
     )
       .then((result) => {
         if (result.success) {
-          console.log('✅ Contact form email sent to support@remowork.life')
+          console.log('✅ Contact form email sent to support@geoffreymunene.app')
         } else {
           console.error('❌ Failed to send contact form email:', result.error)
         }
