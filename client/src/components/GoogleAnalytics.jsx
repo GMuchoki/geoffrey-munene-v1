@@ -100,11 +100,22 @@ export const trackEvent = (action, category, label, value) => {
   }
 
   try {
-    window.gtag('event', action, {
-      event_category: category,
-      event_label: label,
-      value: value,
-    })
+    // GA4 event format - use custom parameters
+    const eventParams = {
+      event_category: category, // Keep for backward compatibility
+      category: category, // GA4 recommended format
+    }
+    
+    if (label) {
+      eventParams.event_label = label // Keep for backward compatibility
+      eventParams.label = label // GA4 recommended format
+    }
+    
+    if (value !== undefined && value !== null) {
+      eventParams.value = value
+    }
+    
+    window.gtag('event', action, eventParams)
     return true
   } catch (error) {
     console.error('Error tracking event:', error)
