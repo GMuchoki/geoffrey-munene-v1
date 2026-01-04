@@ -5,7 +5,7 @@
 
 [build.environment]
   NODE_VERSION = "18"
-  VITE_API_URL = "https://geoffrey-munene-v1-production.up.railway.app/api"
+  VITE_API_URL = "stingray-app-b5k9t.ondigitalocean.app"
   VITE_GA_MEASUREMENT_ID = "G-5MJZQXB3Z3"
 
 # SPA redirect - all routes should serve index.html
